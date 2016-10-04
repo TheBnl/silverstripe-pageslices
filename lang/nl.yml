@@ -1,0 +1,11 @@
+nl:
+  PageSlice:
+    PLURALNAME: Pagina onderdelen
+    SINGULARNAME: Pagina onderdeel
+    ABOUT: Voeg pagina onderdelen toe en sorteer ze om de layout aan te passen.
+  ImageSlice:
+    PLURALNAME: Afbeedling onderdelen
+    SINGULARNAME: Afbeelding onderdeel
+  TextSlice:
+    PLURALNAME: Tekst onderdelen
+    SINGULARNAME: Tekst onderdeel
