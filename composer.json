@@ -1,5 +1,5 @@
 {
-  "name": "bramdeleeuw/silverstripe-page-slices",
+  "name": "bramdeleeuw/silverstripe-pageslices",
   "description": "Page slice implementation for Silverstripe",
   "type": "silverstripe-module",
   "keywords": ["silverstripe", "slice", "page", "layout"],
