@@ -16,5 +16,8 @@
     "heyday/silverstripe-versioneddataobjects": "*",
     "silverstripe-australia/gridfieldextensions": "*",
     "composer/installers": "*"
+  },
+  "extra": {
+    "installer-name": "pageslices"
   }
 }
