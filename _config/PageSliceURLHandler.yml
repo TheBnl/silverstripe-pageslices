@@ -1,0 +1,12 @@
+---
+name: 'PageSliceURLHandler'
+---
+ContentController:
+  extensions:
+    - PageSliceControllerExtension
+  url_handlers:
+    'slice/$ID!': 'handleSlice'
+
+Director:
+  rules:
+    'PageSliceController//$Action/$ID/$OtherID': 'PageSliceController'

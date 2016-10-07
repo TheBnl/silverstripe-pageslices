@@ -33,6 +33,13 @@ class PageSlice extends DataObject
         'Title'
     );
 
+    private static $slice_image = 'pageslices/images/PageSlice.png';
+
+    /**
+     * @var PageSliceController
+     */
+    protected $controller;
+
     public function getCMSFields()
     {
         $fields = new FieldList(new TabSet('Root', $mainTab = new Tab('Main')));
@@ -86,8 +93,36 @@ class PageSlice extends DataObject
      */
     public function getSliceImage()
     {
-        $image = "pageslices/images/{$this->getClassName()}.png";
+        $image = self::config()->get('slice_image');
         return new LiteralField('SliceImage', "<img src='$image' title='{$this->getSliceType()}' alt='{$this->getSliceType()}' width='125' height='75'>");
+    }
+
+
+    /**
+     * @throws Exception
+     *
+     * @return PageSliceController
+     */
+    public function getController()
+    {
+        if ($this->controller) return $this->controller;
+
+        foreach (array_reverse(ClassInfo::ancestry($this->class)) as $sliceClass) {
+            $controllerClass = "{$sliceClass}_Controller";
+            if (class_exists($controllerClass)) break;
+
+            $controllerClass = "{$sliceClass}Controller";
+            if (class_exists($controllerClass)) break;
+
+        }
+
+        if (!class_exists($controllerClass)) {
+            throw new Exception("Could not find controller class for {$this->getClassName()}");
+        }
+
+        $this->controller = Injector::inst()->create($controllerClass, $this);
+
+        return $this->controller;
     }
 
 

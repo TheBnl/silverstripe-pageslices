@@ -1,5 +1,5 @@
 <div class="page-slices">
-    <% loop $PageSlices %>
+    <% loop $Slices %>
         $Template
     <% end_loop %>
 </div>

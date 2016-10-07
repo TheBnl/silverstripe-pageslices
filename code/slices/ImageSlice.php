@@ -21,6 +21,8 @@ class ImageSlice extends PageSlice
         'SliceHeight' => 450
     );
 
+    private static $slice_image = 'pageslices/images/ImageSlice.png';
+
     private static $site_width = 1600;
 
     public function getCMSFields()

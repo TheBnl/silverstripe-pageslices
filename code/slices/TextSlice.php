@@ -17,6 +17,8 @@ class TextSlice extends PageSlice
         'Content' => 'HTMLText'
     );
 
+    private static $slice_image = 'pageslices/images/TextSlice.png';
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();

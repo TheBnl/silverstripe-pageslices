@@ -2,11 +2,6 @@
 Name: PageSlices
 After: 'framework/*','cms/*'
 ---
-PageSlicesPage:
-  available_slices:
-    - ImageSlice
-    - TextSlice
-
 PageSlice:
   extensions:
     - VersionedDataObject
