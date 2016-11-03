@@ -18,10 +18,12 @@ class PageSliceController extends Controller
      */
     protected $slice;
 
+
     /**
      * @var array
      */
     private static $allowed_actions = array();
+
 
     /**
      * @param PageSlice $slice
@@ -35,6 +37,17 @@ class PageSliceController extends Controller
 
         parent::__construct();
     }
+
+
+    /**
+     * Trigger the on after init here because we don't have a request handler on the page slice controller
+     */
+    public function init()
+    {
+        parent::init();
+        $this->extend('onAfterInit');
+    }
+
 
     /**
      * @param string $action
@@ -52,6 +65,7 @@ class PageSliceController extends Controller
         return Controller::curr()->Link($segment);
     }
 
+
     /**
      * @return PageSlice
      */
@@ -59,6 +73,7 @@ class PageSliceController extends Controller
     {
         return $this->slice;
     }
+
 
     /**
      * Return the rendered template
