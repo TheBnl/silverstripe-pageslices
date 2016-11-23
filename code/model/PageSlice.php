@@ -14,6 +14,7 @@ class PageSlice extends DataObject
 {
     private static $db = array(
         'Title' => 'Varchar(255)',
+        'SliceID' => 'Varchar(255)',
         'Sort' => 'Int'
     );
 
@@ -52,6 +53,12 @@ class PageSlice extends DataObject
     }
 
 
+    public function onBeforeWrite()
+    {
+        $this->createSliceID();
+        parent::onBeforeWrite();
+    }
+
     /**
      * Return the translated ClassName
      *
@@ -72,6 +79,22 @@ class PageSlice extends DataObject
     public function getCSSName()
     {
         return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $this->getClassName()));
+    }
+
+
+    /**
+     * Create a readable ID based on the slice title
+     */
+    private function createSliceID()
+    {
+        $urlFilter = URLSegmentFilter::create();
+        if ($sliceID = $urlFilter->filter($this->getField('Title'))) {
+            if (!PageSlice::get()->find('SliceID', $sliceID) || PageSlice::get()->find('SliceID', $sliceID)->ID === $this->ID) {
+                $this->setField('SliceID', $sliceID);
+            } else {
+                $this->setField('SliceID', "$sliceID-{$this->ID}");
+            }
+        }
     }
 
 

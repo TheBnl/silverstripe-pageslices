@@ -1,5 +1,4 @@
-<section class="$CSSName" style="height: {$SliceHeight};">
-
+<section id="$SliceID" class="$CSSName" style="height: {$SliceHeight};">
     <div class="row">
         <div class="medium-12 columns">
             <h3>$Title</h3>
