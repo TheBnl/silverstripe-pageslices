@@ -117,7 +117,7 @@ class PageSlice extends DataObject
     public function getSliceImage()
     {
         $image = self::config()->get('slice_image');
-        return new LiteralField('SliceImage', "<img src='$image' title='{$this->getSliceType()}' alt='{$this->getSliceType()}' width='125' height='75'>");
+        return new LiteralField('SliceImage', "<img src='$image' title='{$this->getSliceType()}' alt='{$this->getSliceType()}' width='125'>");
     }
 
 
