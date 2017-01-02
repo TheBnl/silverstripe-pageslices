@@ -9,6 +9,8 @@
 
 /**
  * TextSlice
+ *
+ * @property string Content
  */
 class TextSlice extends PageSlice
 {

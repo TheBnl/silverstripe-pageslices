@@ -9,6 +9,11 @@
 
 /**
  * PageSlice
+ *
+ * @property string Title
+ * @property string SliceID
+ *
+ * @method SiteTree Parent
  */
 class PageSlice extends DataObject
 {
@@ -95,17 +100,6 @@ class PageSlice extends DataObject
                 $this->setField('SliceID', "$sliceID-{$this->ID}");
             }
         }
-    }
-
-
-    /**
-     * Return the rendered template
-     *
-     * @return HTMLText
-     */
-    public function getTemplate()
-    {
-        return $this->renderWith($this->getClassName());
     }
 
 

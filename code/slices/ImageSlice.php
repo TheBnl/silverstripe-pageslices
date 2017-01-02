@@ -1,10 +1,14 @@
 <?php
 
 /**
- * ImageSlice.php
+ * ImageSlice
  *
  * @author Bram de Leeuw
  * Date: 03/10/16
+ *
+ * @property int SliceHeight
+ *
+ * @method Image Image
  */
 class ImageSlice extends PageSlice
 {
