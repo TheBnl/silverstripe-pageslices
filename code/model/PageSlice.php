@@ -71,8 +71,7 @@ class PageSlice extends DataObject
      */
     public function getSliceType()
     {
-        $key = "{$this->getClassName()}.SINGULARNAME";
-        return _t($key, $this->getClassName());
+        return $this->i18n_singular_name();
     }
 
 
