@@ -51,7 +51,7 @@ class GridFieldConfig_PageSlices extends GridFieldConfig
     private static function translate_available_classes($classes) {
         $out = array();
         foreach ($classes as $class) {
-            $out[$class] = _t("$class.SINGULARNAME", "$class");
+            $out[$class] = $class::singleton()->i18n_singular_name();
         }
         return $out;
     }
