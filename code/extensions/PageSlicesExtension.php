@@ -14,7 +14,7 @@ class PageSlicesExtension extends DataExtension
 {
 
     private static $has_many = array(
-        'PageSlices' => 'PageSlice'
+         'PageSlices' => 'PageSlice.Parent'
     );
 
     public function updateCMSFields(FieldList $fields)
