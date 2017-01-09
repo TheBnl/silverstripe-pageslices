@@ -67,6 +67,16 @@ class PageSliceController extends Controller
 
 
     /**
+     * Get the parent Controller
+     *
+     * @return Controller
+     */
+    public function Parent() {
+        return Controller::curr();
+    }
+
+
+    /**
      * @return PageSlice
      */
     public function getSlice()
