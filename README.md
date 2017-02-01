@@ -14,7 +14,7 @@ Page:
   extensions:
     - Broarm\Silverstripe\PageSlices\PageSlicesExtension
   default_slices:
-    - Broarm\Silverstripe\PageSlices\PageContentSlice
+    - PageContentSlice
 Broarm\Silverstripe\PageSlices\PageSlice:
   default_slices_exceptions:
     - Blog
@@ -29,7 +29,7 @@ BlogPost:
     - BannerSlice
     # By adding the content slice you can control the sort order
     # Otherwise stacked slices will be appended to the list
-    - Broarm\Silverstripe\PageSlices\PageContentSlice   
+    - PageContentSlice
 ```
 
 ### PageContentSlice template hierarchy
@@ -37,6 +37,10 @@ BlogPost:
 The Page content slices looks for it's template in a similar manner as the Page class.
 For example, a `PageContentSlice` added to a `BlogPost` would prefer the `BlogPostContentSlice.ss` template above the `PageContentSlice.ss`.
 It iterates trough the class hierarchy until it stumbles upon a usable template.
+
+#### Note
+The module is namespaced except for the `PageContentSlice`, this is because the `GridFieldAddNewMultiClass` does not support namespaced classes yet.
+For your own PageSlices take care to not namespace them (yet!). 
 
 ###Maintainers
 
