@@ -24,7 +24,7 @@ class PageSliceControllerExtension extends Extension
     /**
      * Handle the slice
      *
-     * @return bool
+     * @return bool|PageSliceController
      */
     public function handleSlice()
     {
@@ -45,11 +45,16 @@ class PageSliceControllerExtension extends Extension
 
         $slice = null;
         foreach ($sliceRelations as $sliceRelation) {
-            if ($slice) break;
+            if ($slice) {
+                break;
+            }
+            /** @var PageSlice $slice */
             $slice = $this->owner->data()->$sliceRelation()->find('ID', $id);
         }
 
-        if (!$slice) user_error('No slice found', E_USER_ERROR);
+        if (!$slice) {
+            user_error('No slice found', E_USER_ERROR);
+        }
 
         return $slice->getController();
     }

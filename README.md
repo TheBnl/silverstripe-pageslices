@@ -1,22 +1,46 @@
 # Page slice module for Silverstripe
 
-This module provides a base `PageSlice` class on which new slices can be extended. See the basic included slices for an example implementation.
+This module provides a base `PageSlice` class on which new slices can be extended.
+A `PageContentSlice` is included by default, this slice holds the parent's content.
 
-The module comes with an `PageSlicePage` that has the required set up and template to get started.
+## Installation
+To add page slices to your page simply include the `PageSlicesExtension` to your page. 
+
+### Setting up default slices
+This module comes with some config setting by which default slices can be set up. For example:
+
+```yaml
+Page:
+  extensions:
+    - PageSlicesExtension
+  default_slices:
+    - PageContentSlice
+PageSlice:
+  default_slices_exceptions:
+    - Blog
+```
+With the above config all pages would get the `PageContentSlice` by default except for `Blog` pages.
+
+The config stacks, so if you would like to add a banner slice to blog posts by default you could add the following to the config:
+
+```yaml
+BlogPost:
+  default_slices:
+    - BannerSlice
+    # By adding the content slice you can control the sort order
+    # Otherwise stacked slices will be appended to the list
+    - PageContentSlice   
+```
+
+### PageContentSlice template hierarchy
+
+The Page content slices looks for it's template in a similar manner as the Page class.
+For example, a `PageContentSlice` added to a `BlogPost` would prefer the `BlogPostContentSlice.ss` template above the `PageContentSlice.ss`.
+It iterates trough the class hierarchy until it stumbles upon a usable template.
 
 ###Maintainers
 
 [Bram de Leeuw](http://www.twitter.com/bramdeleeuw)
-
-## Adding page slices to your custom pages
-
-Easiest would be extending the `PageSlicePage` class, but you can also add an `$has_many` to the `PageSlice` class. Make sure that your using a GridField that has the `MultiClass` component (from the gridfieldextensions module) enabled.
-
-This module supplies a GridField config set up that you can apply to your GridField. You can give it an array of classes you want to include on the page, otherwise it will take all available subclasses of `PageSlice`.
-
-## Creating new page slices
-
-To create new page slices simply extend the Page Slice base class. For some examples check out the included basic slices (ImageSlice and TextSlice) advanced examples are coming soon as separate modules! Feel free to publish your own page slice modules, documentation on this topic will follow.
 
 ## License
 

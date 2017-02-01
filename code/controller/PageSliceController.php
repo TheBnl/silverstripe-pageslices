@@ -51,6 +51,7 @@ class PageSliceController extends Controller
 
     /**
      * @param string $action
+     *
      * @return string
      */
     public function Link($action = null)
@@ -61,7 +62,7 @@ class PageSliceController extends Controller
         if ($page = Director::get_current_page()) {
             return $page->Link($segment);
         }
-        
+
         return Controller::curr()->Link($segment);
     }
 
@@ -71,7 +72,8 @@ class PageSliceController extends Controller
      *
      * @return Controller
      */
-    public function Parent() {
+    public function Parent()
+    {
         return Controller::curr();
     }
 

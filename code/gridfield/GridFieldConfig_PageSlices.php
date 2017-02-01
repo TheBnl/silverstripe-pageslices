@@ -15,8 +15,8 @@ class GridFieldConfig_PageSlices extends GridFieldConfig
     /**
      * GridFieldConfig_PageSlices constructor.
      *
-     * @param array $availableClasses
-     * @param int $itemsPerPage
+     * @param array  $availableClasses
+     * @param int    $itemsPerPage
      * @param string $sortField
      */
     public function __construct($availableClasses = array(), $itemsPerPage = 999, $sortField = 'Sort')
@@ -46,9 +46,11 @@ class GridFieldConfig_PageSlices extends GridFieldConfig
      * Translate the given array for a proper SINGULARNAME.
      *
      * @param $classes
+     *
      * @return array
      */
-    private static function translate_available_classes($classes) {
+    private static function translate_available_classes($classes)
+    {
         $out = array();
         foreach ($classes as $class) {
             $out[$class] = $class::singleton()->i18n_singular_name();
@@ -70,9 +72,10 @@ class PageSlices_VersionedGridFieldDeleteAction extends GridFieldDeleteAction
      * Delete the object form both live and stage
      *
      * @param GridField $gridField
-     * @param string $actionName
-     * @param mixed $arguments
-     * @param array $data
+     * @param string    $actionName
+     * @param mixed     $arguments
+     * @param array     $data
+     *
      * @throws ValidationException
      */
     public function handleAction(GridField $gridField, $actionName, $arguments, $data)

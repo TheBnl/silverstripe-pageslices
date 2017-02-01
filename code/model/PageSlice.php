@@ -48,9 +48,9 @@ class PageSlice extends DataObject
 
     public function getCMSFields()
     {
-        $fields = new FieldList(new TabSet('Root', $mainTab = new Tab('Main')));
+        $fields = FieldList::create(TabSet::create('Root', $mainTab = Tab::create('Main')));
 
-        $titleField = new TextField('Title', 'Title');
+        $titleField = TextField::create('Title', 'Title');
 
         $fields->addFieldsToTab('Root.Main', array($titleField));
         $this->extend('updateCMSFields', $fields);
@@ -93,7 +93,7 @@ class PageSlice extends DataObject
     {
         $urlFilter = URLSegmentFilter::create();
         if ($sliceID = $urlFilter->filter($this->getField('Title'))) {
-            if (!PageSlice::get()->find('SliceID', $sliceID) || PageSlice::get()->find('SliceID', $sliceID)->ID === $this->ID) {
+            if (!PageSlice::get()->find('SliceID', $sliceID)) {
                 $this->setField('SliceID', $sliceID);
             } else {
                 $this->setField('SliceID', "$sliceID-{$this->ID}");
@@ -110,7 +110,10 @@ class PageSlice extends DataObject
     public function getSliceImage()
     {
         $image = self::config()->get('slice_image');
-        return new LiteralField('SliceImage', "<img src='$image' title='{$this->getSliceType()}' alt='{$this->getSliceType()}' width='125'>");
+        return LiteralField::create(
+            'SliceImage',
+            "<img src='$image' title='{$this->getSliceType()}' alt='{$this->getSliceType()}' width='125'>"
+        );
     }
 
 
@@ -121,14 +124,20 @@ class PageSlice extends DataObject
      */
     public function getController()
     {
-        if ($this->controller) return $this->controller;
+        if ($this->controller) {
+            return $this->controller;
+        }
 
         foreach (array_reverse(ClassInfo::ancestry($this->class)) as $sliceClass) {
             $controllerClass = "{$sliceClass}_Controller";
-            if (class_exists($controllerClass)) break;
+            if (class_exists($controllerClass)) {
+                break;
+            }
 
             $controllerClass = "{$sliceClass}Controller";
-            if (class_exists($controllerClass)) break;
+            if (class_exists($controllerClass)) {
+                break;
+            }
 
         }
 

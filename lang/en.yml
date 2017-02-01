@@ -3,9 +3,7 @@ en:
     PLURALNAME: Page sections
     SINGULARNAME: Page section
     ABOUT: Add page sections to the page and rearrange them to alter the layout.
-  ImageSlice:
-    PLURALNAME: Image sections
-    SINGULARNAME: Image section
-  TextSlice:
-    PLURALNAME: Text sections
-    SINGULARNAME: Text section
+  PageContentSlice:
+    ABOUT: This section holds the content of the parent page. To edit, simply edit the parent's content field
+    PLURALNAME: Page content sections
+    SINGULARNAME: Page content section
