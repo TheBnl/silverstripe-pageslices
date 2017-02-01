@@ -1,9 +1,10 @@
 en:
-  PageSlice:
-    PLURALNAME: Page sections
+  Broarm\Silverstripe\PageSlices\PageSlice:
     SINGULARNAME: Page section
+    PLURALNAME: Page sections
+  PageSlice:
     ABOUT: Add page sections to the page and rearrange them to alter the layout.
   PageContentSlice:
-    ABOUT: This section holds the content of the parent page. To edit, simply edit the parent's content field
-    PLURALNAME: Page content sections
     SINGULARNAME: Page content section
+    PLURALNAME: Page content sections
+    ABOUT: This section holds the content of the parent page. To edit, simply edit the parent's content field

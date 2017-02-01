@@ -1,9 +1,10 @@
 nl:
-  PageSlice:
-    PLURALNAME: Pagina onderdelen
+  Broarm\Silverstripe\PageSlices\PageSlice:
     SINGULARNAME: Pagina onderdeel
+    PLURALNAME: Pagina onderdelen
+  PageSlice:
     ABOUT: Voeg pagina onderdelen toe en sorteer ze om de layout aan te passen.
   PageContentSlice:
-    ABOUT: Dit onderdeel geeft de pagina inhoud weer, deze is in het pagina content veld aan te passen.
-    PLURALNAME: Pagina content onderdelen
     SINGULARNAME: Pagina content onderdeel
+    PLURALNAME: Pagina content onderdelen
+    ABOUT: Dit onderdeel geeft de pagina inhoud weer, deze is in het pagina content veld aan te passen.

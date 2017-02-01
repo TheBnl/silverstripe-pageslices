@@ -1,23 +1,27 @@
 <?php
-/**
- * PageSlicesExtension.php
- *
- * @author Bram de Leeuw
- * Date: 03/10/16
- */
 
+namespace Broarm\Silverstripe\PageSlices;
+
+use ArrayList;
+use Config;
+use DataExtension;
+use FieldList;
+use GridField;
+use LabelField;
 
 /**
- * PageSlicesExtension
+ * Class PageSlicesExtension
  *
- * @property SiteTree|PageSlicesExtension $owner
- * @method HasManyList PageSlices
+ * @property \SiteTree|PageSlicesExtension $owner
+ * @method \HasManyList PageSlices
+ *
+ * @package Broarm\Silverstripe\PageSlices
  */
 class PageSlicesExtension extends DataExtension
 {
 
     private static $has_many = array(
-        'PageSlices' => 'PageSlice.Parent'
+        'PageSlices' => 'Broarm\\Silverstripe\\PageSlices\\PageSlice.Parent'
     );
 
     public function updateCMSFields(FieldList $fields)
@@ -25,7 +29,7 @@ class PageSlicesExtension extends DataExtension
         $class = $this->owner->getClassName();
         $availableSlices = Config::inst()->get($class, 'available_slices');
 
-        $pageSlicesGridFieldConfig = GridFieldConfig_PageSlices::create($availableSlices);
+        $pageSlicesGridFieldConfig = PageSlicesGridFieldConfig::create($availableSlices);
 
         $pageSlicesGridField = GridField::create(
             'PageSlices',

@@ -1,14 +1,14 @@
 <?php
+
+namespace Broarm\Silverstripe\PageSlices;
+
+use Controller;
+use Director;
+
 /**
- * PageSliceController.php
+ * Class PageSliceController
  *
- * @author Bram de Leeuw
- * Date: 7/10/16
- */
-
-
-/**
- * PageSliceController
+ * @package Broarm\Silverstripe\PageSlices
  */
 class PageSliceController extends Controller
 {
@@ -90,7 +90,7 @@ class PageSliceController extends Controller
     /**
      * Return the rendered template
      *
-     * @return HTMLText
+     * @return \HTMLText
      */
     public function getTemplate()
     {

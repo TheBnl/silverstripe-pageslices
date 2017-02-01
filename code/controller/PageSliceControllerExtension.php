@@ -1,14 +1,13 @@
 <?php
+
+namespace Broarm\Silverstripe\PageSlices;
+
+use Extension;
+
 /**
- * PageSliceController.php
+ * Class PageSliceControllerExtension
  *
- * @author Bram de Leeuw
- * Date: 7/10/16
- */
-
-
-/**
- * PageSliceController
+ * @package Broarm\Silverstripe\PageSlices
  */
 class PageSliceControllerExtension extends Extension
 {

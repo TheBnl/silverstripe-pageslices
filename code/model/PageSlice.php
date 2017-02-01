@@ -6,14 +6,28 @@
  * Date: 19/07/16
  */
 
+namespace Broarm\Silverstripe\PageSlices;
+
+use ClassInfo;
+use DataObject;
+use Exception;
+use FieldList;
+use Injector;
+use LiteralField;
+use Tab;
+use TabSet;
+use TextField;
+use URLSegmentFilter;
 
 /**
- * PageSlice
+ * Class PageSlice
+ *
+ * @package Broarm\Silverstripe\PageSlices
  *
  * @property string Title
  * @property string SliceID
  *
- * @method SiteTree Parent
+ * @method \SiteTree Parent
  */
 class PageSlice extends DataObject
 {
@@ -46,6 +60,9 @@ class PageSlice extends DataObject
      */
     protected $controller;
 
+    /**
+     * @return FieldList
+     */
     public function getCMSFields()
     {
         $fields = FieldList::create(TabSet::create('Root', $mainTab = Tab::create('Main')));
@@ -64,6 +81,7 @@ class PageSlice extends DataObject
         parent::onBeforeWrite();
     }
 
+
     /**
      * Return the translated ClassName
      *
@@ -71,7 +89,8 @@ class PageSlice extends DataObject
      */
     public function getSliceType()
     {
-        return $this->i18n_singular_name();
+        $singularName = explode('\\', $this->i18n_singular_name());
+        return end($singularName);
     }
 
 

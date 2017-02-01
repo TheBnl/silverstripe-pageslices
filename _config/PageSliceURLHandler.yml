@@ -3,10 +3,10 @@ name: 'PageSliceURLHandler'
 ---
 ContentController:
   extensions:
-    - PageSliceControllerExtension
+    - Broarm\Silverstripe\PageSlices\PageSliceControllerExtension
   url_handlers:
     'slice/$ID!': 'handleSlice'
 
 Director:
   rules:
-    'PageSliceController//$Action/$ID/$OtherID': 'PageSliceController'
+    'PageSliceController//$Action/$ID/$OtherID': 'Broarm\Silverstripe\PageSlices\PageSliceController'

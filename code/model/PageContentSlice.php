@@ -1,16 +1,14 @@
 <?php
-/**
- * PageContentSlice.php
- *
- * @author Bram de Leeuw
- * Date: 19/12/16
- */
 
+use Broarm\Silverstripe\PageSlices\PageSlice;
+use Broarm\Silverstripe\PageSlices\PageSliceController;
 
 /**
- * PageContentSlice
+ * Class PageContentSlice
  *
- * @method Page Parent
+ * @package Broarm\Silverstripe\PageSlices
+ *
+ * @method \Page Parent
  */
 class PageContentSlice extends PageSlice
 {
@@ -27,19 +25,29 @@ class PageContentSlice extends PageSlice
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-        $notice = _t('PageContentSlice.ABOUT', 'This section holds the content of the parent page. To edit, simply edit the parent\'s content field');
         $fields->removeByName('Title');
+
+        $notice = _t(
+            'PageContentSlice.ABOUT',
+            'This section holds the content of the parent page. To edit, simply edit the parent\'s content field'
+        );
         $fields->addFieldsToTab('Root.Main', array(
             LiteralField::create(
                 'Notification',
                 "<p class='message notice'>{$notice}</p>"
             )
         ));
+
         return $fields;
     }
 }
 
 
+/**
+ * Class PageContentSlice_Controller
+ *
+ * @package Broarm\Silverstripe\PageSlices
+ */
 class PageContentSlice_Controller extends PageSliceController
 {
     private static $allowed_actions = array();
@@ -53,7 +61,7 @@ class PageContentSlice_Controller extends PageSliceController
      * Look for content slices that match any of the parents class ancestry
      * The slice name is composed of the class name + 'ContentSlice'
      *
-     * @return HTMLText
+     * @return \HTMLText
      */
     public function getTemplate()
     {

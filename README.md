@@ -12,10 +12,10 @@ This module comes with some config setting by which default slices can be set up
 ```yaml
 Page:
   extensions:
-    - PageSlicesExtension
+    - Broarm\Silverstripe\PageSlices\PageSlicesExtension
   default_slices:
-    - PageContentSlice
-PageSlice:
+    - Broarm\Silverstripe\PageSlices\PageContentSlice
+Broarm\Silverstripe\PageSlices\PageSlice:
   default_slices_exceptions:
     - Blog
 ```
@@ -29,7 +29,7 @@ BlogPost:
     - BannerSlice
     # By adding the content slice you can control the sort order
     # Otherwise stacked slices will be appended to the list
-    - PageContentSlice   
+    - Broarm\Silverstripe\PageSlices\PageContentSlice   
 ```
 
 ### PageContentSlice template hierarchy

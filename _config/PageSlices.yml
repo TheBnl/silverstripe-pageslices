@@ -2,6 +2,6 @@
 Name: PageSlices
 After: 'framework/*','cms/*'
 ---
-PageSlice:
+Broarm\Silverstripe\PageSlices\PageSlice:
   extensions:
     - VersionedDataObject
