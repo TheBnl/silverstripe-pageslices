@@ -2,12 +2,12 @@
 
 This module provides a base `PageSlice` class on which new slices can be extended.
 A `PageContentSlice` is included by default, this slice holds the parent's content.
-
+ 
 ## Installation
 To add page slices to your page simply include the `PageSlicesExtension` to your page. 
 
 ### Setting up default slices
-This module comes with some config setting by which default slices can be set up. For example:
+Default slices are slices set up by the developer in the config that are installed on createion of a page or object after write. This module comes with some config setting by which default slices can be set up. For example:
 
 ```yaml
 Page:
