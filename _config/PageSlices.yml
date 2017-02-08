@@ -2,6 +2,9 @@
 Name: PageSlices
 After: 'framework/*','cms/*'
 ---
+Page:
+  default_slices:
+    - PageContentSlice
 PageSlice:
   extensions:
     - VersionedDataObject

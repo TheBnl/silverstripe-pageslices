@@ -41,6 +41,8 @@ class PageSlice extends DataObject
 
     private static $slice_image = 'pageslices/images/PageSlice.png';
 
+    private static $default_slices_exceptions = array();
+
     /**
      * @var PageSliceController
      */
