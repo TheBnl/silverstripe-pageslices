@@ -66,6 +66,7 @@ class PageSlice extends DataObject
         parent::onBeforeWrite();
     }
 
+
     /**
      * Return the translated ClassName
      *

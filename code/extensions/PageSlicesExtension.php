@@ -67,9 +67,14 @@ class PageSlicesExtension extends DataExtension
 
     public function onAfterWrite()
     {
-        $slices = array_unique(Config::inst()->get($this->owner->class, 'default_slices'));
+        $slices = Config::inst()->get($this->owner->class, 'default_slices');
+        if (is_array($slices)) {
+            $slices = array_unique($slices);
+        } else {
+            $slices = null;
+        }
 
-        if ($this->owner->isValidClass() && $this->owner->hasNoSlices() && !empty($slices)) {
+        if (!empty($slices) && $this->owner->isValidClass() && $this->owner->hasNoSlices()) {
             foreach ($slices as $sliceClass) {
                 /** @var PageSlice $slice */
                 $slice = $sliceClass::create();
@@ -80,6 +85,47 @@ class PageSlicesExtension extends DataExtension
         }
 
         parent::onAfterWrite();
+    }
+
+
+    /**
+     * Make sure the default slices do not get added double on a duplicate action
+     */
+    public function onBeforeDuplicate()
+    {
+        Config::inst()->update($this->owner->class, 'default_slices', null);
+    }
+
+
+    /**
+     * Loop over and copy the attached page slices
+     *
+     * @param Page $page
+     */
+    public function onAfterDuplicate(Page $page)
+    {
+        foreach ($this->owner->PageSlices() as $slice) {
+            /** @var PageSlice $slice */
+            $sliceCopy = $slice->duplicate(true);
+            $page->PageSlices()->add($sliceCopy);
+            $sliceCopy->publish('Stage', 'Live');
+        }
+    }
+
+
+    /**
+     * Clean up any child records after the page is deleted.
+     * If a page is archived and a ID is reused (?) old slices
+     * matching the parent ID can be added to the new page
+     */
+    public function onAfterDelete()
+    {
+        foreach ($this->owner->PageSlices() as $slice) {
+            /** @var PageSlice $slice */
+            $slice->deleteFromStage('Live');
+            $slice->delete();
+        }
+        parent::onAfterDelete();
     }
 
 
