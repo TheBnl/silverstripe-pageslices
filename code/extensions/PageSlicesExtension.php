@@ -26,25 +26,27 @@ class PageSlicesExtension extends DataExtension
 
     public function updateCMSFields(FieldList $fields)
     {
-        $class = $this->owner->getClassName();
-        $availableSlices = Config::inst()->get($class, 'available_slices');
+        if ($this->isValidClass()) {
+            $class = $this->owner->getClassName();
+            $availableSlices = Config::inst()->get($class, 'available_slices');
 
-        $pageSlicesGridFieldConfig = PageSlicesGridFieldConfig::create($availableSlices);
+            $pageSlicesGridFieldConfig = PageSlicesGridFieldConfig::create($availableSlices);
 
-        $pageSlicesGridField = GridField::create(
-            'PageSlices',
-            _t('PageSlice.PLURALNAME', 'Page slices'),
-            $this->owner->PageSlices(),
-            $pageSlicesGridFieldConfig,
-            $this
-        );
+            $pageSlicesGridField = GridField::create(
+                'PageSlices',
+                _t('PageSlice.PLURALNAME', 'Page slices'),
+                $this->owner->PageSlices(),
+                $pageSlicesGridFieldConfig,
+                $this
+            );
 
-        $pageSlicesLabelField = LabelField::create(
-            'MembersLabel',
-            _t('PageSlice.ABOUT', 'Add page sections to the page and rearrange them to alter the layout.')
-        );
+            $pageSlicesLabelField = LabelField::create(
+                'MembersLabel',
+                _t('PageSlice.ABOUT', 'Add page sections to the page and rearrange them to alter the layout.')
+            );
 
-        $fields->addFieldsToTab('Root.PageSlices', array($pageSlicesLabelField, $pageSlicesGridField));
+            $fields->addFieldsToTab('Root.PageSlices', array($pageSlicesLabelField, $pageSlicesGridField));
+        }
     }
 
     /**

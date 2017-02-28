@@ -3,5 +3,8 @@ Name: PageSlices
 After: 'framework/*','cms/*'
 ---
 Broarm\Silverstripe\PageSlices\PageSlice:
+  default_slices_exceptions:
+    - RedirectorPage
+    - VirtualPage
   extensions:
     - VersionedDataObject
