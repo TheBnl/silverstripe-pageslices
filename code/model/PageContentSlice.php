@@ -65,6 +65,11 @@ class PageContentSlice_Controller extends PageSliceController
      */
     public function getTemplate()
     {
+        // Weird fix that appeared in SS 3.5.2
+        if ($this->Parent()->class === 'CMSPageEditController') {
+            return null;
+        }
+        
         $sliceAncestry = explode(',', implode('ContentSlice,', array_reverse($this->Parent()->getClassAncestry())));
         array_pop($sliceAncestry);
 
