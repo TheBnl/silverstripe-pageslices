@@ -2,6 +2,9 @@
 Name: PageSlices
 After: 'framework/*','cms/*'
 ---
+Page:
+  default_slices:
+    - PageContentSlice
 Broarm\Silverstripe\PageSlices\PageSlice:
   default_slices_exceptions:
     - RedirectorPage
