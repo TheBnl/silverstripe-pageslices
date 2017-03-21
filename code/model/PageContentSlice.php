@@ -73,6 +73,6 @@ class PageContentSlice_Controller extends PageSliceController
         $sliceAncestry = explode(',', implode('ContentSlice,', array_reverse($this->Parent()->getClassAncestry())));
         array_pop($sliceAncestry);
 
-        return $this->Parent()->renderWith($sliceAncestry, array('ID' => $this->ID));
+        return $this->Parent()->renderWith($sliceAncestry, array('Slice' => $this));
     }
 }
