@@ -83,6 +83,29 @@ class PageSlice extends DataObject
 
 
     /**
+     * If this slice holds has_many content
+     * on duplicate copy the content over
+     *
+     * @param PageSlice $slice
+     */
+    public function onAfterDuplicate(PageSlice $slice)
+    {
+        // Check if there are relations set
+        // Loop over each set relation
+        // Copy all items in the relation over to the new object
+        if ($hasManyRelations = $slice->data()->hasMany()) {
+            foreach ($hasManyRelations as $relation => $class) {
+                foreach ($slice->$relation() as $object) {
+                    /** @var DataObject $object */
+                    $copy = $object->duplicate(true);
+                    $this->$relation()->add($copy);
+                }
+            }
+        }
+    }
+
+
+    /**
      * Return the translated ClassName
      *
      * @return string

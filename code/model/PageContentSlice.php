@@ -65,9 +65,14 @@ class PageContentSlice_Controller extends PageSliceController
      */
     public function getTemplate()
     {
+        // Weird fix that appeared in SS 3.5.2
+        if (in_array($this->Parent()->class, array('CMSPageEditController', 'CMSPageSettingsController'))) {
+            return null;
+        }
+
         $sliceAncestry = explode(',', implode('ContentSlice,', array_reverse($this->Parent()->getClassAncestry())));
         array_pop($sliceAncestry);
 
-        return $this->Parent()->renderWith($sliceAncestry, array('ID' => $this->ID));
+        return $this->Parent()->renderWith($sliceAncestry, array('Slice' => $this));
     }
 }
