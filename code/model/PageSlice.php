@@ -112,7 +112,7 @@ class PageSlice extends DataObject
     {
         $urlFilter = URLSegmentFilter::create();
         if ($sliceID = $urlFilter->filter($this->getField('Title'))) {
-            if (!PageSlice::get()->find('SliceID', $sliceID)) {
+            if (!$this->Parent()->PageSlices()->filter(array('ID:not' => $this->ID, 'SliceID' => $sliceID))->exists()) {
                 $this->setField('SliceID', $sliceID);
             } else {
                 $this->setField('SliceID', "$sliceID-{$this->ID}");
