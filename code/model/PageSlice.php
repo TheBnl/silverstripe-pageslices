@@ -77,7 +77,10 @@ class PageSlice extends DataObject
 
     public function onBeforeWrite()
     {
-        $this->createSliceID();
+        if ($this->Parent()->exists()) {
+            $this->createSliceID();
+        }
+
         parent::onBeforeWrite();
     }
 
