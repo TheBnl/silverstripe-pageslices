@@ -27,7 +27,7 @@ use URLSegmentFilter;
  * @property string Title
  * @property string SliceID
  *
- * @method \SiteTree Parent
+ * @method \SiteTree|\Page Parent
  */
 class PageSlice extends DataObject
 {

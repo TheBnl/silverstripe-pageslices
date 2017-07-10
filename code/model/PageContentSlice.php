@@ -12,11 +12,9 @@ use Broarm\Silverstripe\PageSlices\PageSliceController;
  */
 class PageContentSlice extends PageSlice
 {
-    private static $db = array();
-
     private static $has_one = array();
 
-    private static $slice_image = 'pageslices/images/TextSlice.png';
+    private static $slice_image = 'pageslices/images/PageContentSlice.png';
 
     private static $defaults = array(
         'Title' => 'Page content'
@@ -35,10 +33,18 @@ class PageContentSlice extends PageSlice
             LiteralField::create(
                 'Notification',
                 "<p class='message notice'>{$notice}</p>"
-            )
+            ),
+            HtmlEditorField::create('Content', 'Content', $this->Parent()->Content)
         ));
 
         return $fields;
+    }
+
+    public function onBeforeWrite()
+    {
+        parent::onBeforeWrite();
+        $this->Parent()->Content = $this->getField('Content');
+        $this->Parent()->write();
     }
 }
 
