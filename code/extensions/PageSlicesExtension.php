@@ -29,7 +29,7 @@ class PageSlicesExtension extends DataExtension
 
     public function updateCMSFields(FieldList $fields)
     {
-        if ($this->isValidClass()) {
+        if ($this->isValidClass() && $this->owner->exists()) {
             $class = $this->owner->getClassName();
             $availableSlices = Config::inst()->get($class, 'available_slices');
 

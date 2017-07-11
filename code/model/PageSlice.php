@@ -134,7 +134,7 @@ class PageSlice extends DataObject
     private function createSliceID()
     {
         $urlFilter = URLSegmentFilter::create();
-        if ($sliceID = $urlFilter->filter($this->getField('Title'))) {
+        if (method_exists($this->Parent(), 'PageSlices') && $sliceID = $urlFilter->filter($this->getField('Title'))) {
             if (!$this->Parent()->PageSlices()->filter(array('ID:not' => $this->ID, 'SliceID' => $sliceID))->exists()) {
                 $this->setField('SliceID', $sliceID);
             } else {
