@@ -43,8 +43,10 @@ class PageContentSlice extends PageSlice
     public function onBeforeWrite()
     {
         parent::onBeforeWrite();
-        $this->Parent()->Content = $this->getField('Content');
-        $this->Parent()->write();
+        if ($this->isChanged('Content') && $this->Parent()->exists()) {
+            $this->Parent()->Content = $this->getField('Content');
+            $this->Parent()->write();
+        }
     }
 }
 

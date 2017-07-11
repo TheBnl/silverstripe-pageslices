@@ -73,7 +73,7 @@ class PageSlicesExtension extends DataExtension
         return $controllers;
     }
 
-
+    
     public function onAfterWrite()
     {
         if ($defaultSlices = Config::inst()->get($this->owner->class, 'default_slices')) {

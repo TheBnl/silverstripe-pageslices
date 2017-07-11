@@ -7,6 +7,7 @@ Page:
     - PageContentSlice
 Broarm\Silverstripe\PageSlices\PageSlice:
   default_slices_exceptions:
+    - SiteTree
     - RedirectorPage
     - VirtualPage
   extensions:

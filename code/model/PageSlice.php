@@ -27,7 +27,7 @@ use URLSegmentFilter;
  * @property string Title
  * @property string SliceID
  *
- * @method \SiteTree|\Page Parent
+ * @method |\Page Parent
  */
 class PageSlice extends DataObject
 {
@@ -40,7 +40,7 @@ class PageSlice extends DataObject
     private static $default_sort = 'Sort ASC';
 
     private static $has_one = array(
-        'Parent' => 'SiteTree'
+        'Parent' => 'Page'
     );
 
     private static $summary_fields = array(
@@ -134,7 +134,7 @@ class PageSlice extends DataObject
     private function createSliceID()
     {
         $urlFilter = URLSegmentFilter::create();
-        if (method_exists($this->Parent(), 'PageSlices') && $sliceID = $urlFilter->filter($this->getField('Title'))) {
+        if ($sliceID = $urlFilter->filter($this->getField('Title'))) {
             if (!$this->Parent()->PageSlices()->filter(array('ID:not' => $this->ID, 'SliceID' => $sliceID))->exists()) {
                 $this->setField('SliceID', $sliceID);
             } else {
