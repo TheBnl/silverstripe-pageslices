@@ -2,6 +2,7 @@
 
 namespace Broarm\Silverstripe\PageSlices;
 
+use ClassInfo;
 use Controller;
 use Director;
 
@@ -94,6 +95,6 @@ class PageSliceController extends Controller
      */
     public function getTemplate()
     {
-        return $this->renderWith($this->getClassName());
+        return $this->renderWith(array_reverse(ClassInfo::ancestry($this->getClassName())));
     }
 }
