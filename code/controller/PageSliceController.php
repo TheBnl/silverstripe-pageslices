@@ -5,6 +5,7 @@ namespace Broarm\Silverstripe\PageSlices;
 use ClassInfo;
 use Controller;
 use Director;
+use Versioned;
 
 /**
  * Class PageSliceController
@@ -24,6 +25,11 @@ class PageSliceController extends Controller
      * @var array
      */
     private static $allowed_actions = array();
+
+    /**
+     * @var boolean
+     */
+    private static $enable_cache = false;
 
 
     /**
@@ -87,13 +93,41 @@ class PageSliceController extends Controller
         return $this->slice;
     }
 
+    public function getCacheKey()
+    {
+        $cacheKey = implode('_', array(
+            $this->ID,
+            strtotime($this->LastEdited),
+            Versioned::current_stage()
+        ));
+
+        $this->extend('updateCacheKey', $cacheKey);
+        return $cacheKey;
+    }
 
     /**
      * Return the rendered template
+     * todo add more advanced caching
      *
      * @return \HTMLText
      */
     public function getTemplate()
+    {
+        if (self::config()->get('enable_cache')) {
+            // Lookup the list in the cache
+            $cache = \SS_Cache::factory('page_slice');
+            if (!($result = unserialize($cache->load($this->getCacheKey())))) {
+                $result = $this->renderTemplate();
+                $cache->save(serialize($result), $this->getCacheKey());
+            }
+        } else {
+            $result = $this->renderTemplate();
+        }
+
+        return $result;
+    }
+
+    public function renderTemplate()
     {
         return $this->renderWith(array_reverse(ClassInfo::ancestry($this->getClassName())));
     }
