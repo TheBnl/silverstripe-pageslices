@@ -9,6 +9,7 @@ use Versioned;
 
 /**
  * Class PageSliceController
+ * @mixin \LoopSlice
  *
  * @package Broarm\Silverstripe\PageSlices
  */
