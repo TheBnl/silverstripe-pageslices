@@ -14,23 +14,30 @@ use Versioned;
  */
 class PageSliceController extends Controller
 {
-
     /**
      * @var PageSlice
      */
     protected $slice;
 
+    /**
+     * Overwrite this setting on your subclass
+     * to disable caching on a per slice basis
+     *
+     * @var boolean
+     */
+    protected $useCaching = true;
+
+    /**
+     * Turn the caching feature on
+     *
+     * @var boolean
+     */
+    private static $enable_cache = false;
 
     /**
      * @var array
      */
     private static $allowed_actions = array();
-
-    /**
-     * @var boolean
-     */
-    private static $enable_cache = false;
-
 
     /**
      * @param PageSlice $slice
@@ -45,7 +52,6 @@ class PageSliceController extends Controller
         parent::__construct();
     }
 
-
     /**
      * Trigger the on after init here because we don't have a request handler on the page slice controller
      */
@@ -54,7 +60,6 @@ class PageSliceController extends Controller
         parent::init();
         $this->extend('onAfterInit');
     }
-
 
     /**
      * @param string $action
@@ -73,7 +78,6 @@ class PageSliceController extends Controller
         return Controller::curr()->Link($segment);
     }
 
-
     /**
      * Get the parent Controller
      *
@@ -84,7 +88,6 @@ class PageSliceController extends Controller
         return Controller::curr();
     }
 
-
     /**
      * @return PageSlice
      */
@@ -93,6 +96,22 @@ class PageSliceController extends Controller
         return $this->slice;
     }
 
+    /**
+     * Check if the caching featured is turned on and enabled for this slice
+     *
+     * @return bool
+     */
+    public function useCaching()
+    {
+        return $this->useCaching && self::config()->get('enable_cache');
+    }
+
+    /**
+     * The Cache key with basis properties
+     * Extend this on your subclass for more specific properties
+     *
+     * @return string
+     */
     public function getCacheKey()
     {
         $cacheKey = implode('_', array(
@@ -107,13 +126,12 @@ class PageSliceController extends Controller
 
     /**
      * Return the rendered template
-     * todo add more advanced caching
      *
      * @return \HTMLText
      */
     public function getTemplate()
     {
-        if (self::config()->get('enable_cache')) {
+        if ($this->useCaching()) {
             // Lookup the list in the cache
             $cache = \SS_Cache::factory('page_slice');
             if (!($result = unserialize($cache->load($this->getCacheKey())))) {
