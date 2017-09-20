@@ -118,6 +118,7 @@ class PageSliceController extends Controller
         $cacheKey = implode('_', array(
             $this->ID,
             strtotime($this->LastEdited),
+            strtotime($this->Parent()->LastEdited),
             Versioned::current_stage()
         ));
 
