@@ -55,11 +55,15 @@ class PageSliceController extends Controller
 
     /**
      * Trigger the on after init here because we don't have a request handler on the page slice controller
+     * Temp Disable the log_last_visited, this can cause a lot of duplicate requests to the database.
      */
     public function init()
     {
+        $logVisits = \Config::inst()->get('Member', 'log_last_visited');
+        \Config::inst()->update('Member', 'log_last_visited', false);
         parent::init();
         $this->extend('onAfterInit');
+        \Config::inst()->update('Member', 'log_last_visited', $logVisits);
     }
 
     /**
@@ -72,11 +76,31 @@ class PageSliceController extends Controller
         $id = ($this->slice) ? $this->slice->ID : null;
         $segment = Controller::join_links('slice', $id, $action);
 
-        if ($page = Director::get_current_page()) {
+        if (($page = Director::get_current_page()) && !($page instanceof PageSliceController)) {
             return $page->Link($segment);
         }
 
-        return Controller::curr()->Link($segment);
+        if ($controller = $this->getParentController()) {
+            return $controller->Link($segment);
+        }
+
+        return $segment;
+    }
+
+    /**
+     * Find a non PageSlice controller
+     *
+     * @return Controller|false
+     */
+    public function getParentController()
+    {
+        foreach(Controller::$controller_stack as $controller) {
+            if (!($controller instanceof PageSliceController)) {
+                return $controller;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -104,6 +128,7 @@ class PageSliceController extends Controller
      */
     public function useCaching()
     {
+        //return false;
         return $this->useCaching && self::config()->get('enable_cache');
     }
 

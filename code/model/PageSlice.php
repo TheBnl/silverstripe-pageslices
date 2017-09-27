@@ -183,7 +183,7 @@ class PageSlice extends DataObject
 
         }
 
-        if (!class_exists($controllerClass)) {
+        if (!isset($controllerClass) || !class_exists($controllerClass)) {
             throw new Exception("Could not find controller class for {$this->getClassName()}");
         }
 
