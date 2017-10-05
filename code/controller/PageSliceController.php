@@ -128,7 +128,6 @@ class PageSliceController extends Controller
      */
     public function useCaching()
     {
-        //return false;
         return $this->useCaching && self::config()->get('enable_cache');
     }
 
