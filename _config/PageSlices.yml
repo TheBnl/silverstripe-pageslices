@@ -5,7 +5,7 @@ After: 'framework/*','cms/*'
 Page:
   default_slices:
     - PageContentSlice
-Broarm\Silverstripe\PageSlices\PageSlice:
+Broarm\PageSlices\PageSlice:
   default_slices_exceptions:
     - SiteTree
     - RedirectorPage

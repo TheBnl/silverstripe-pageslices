@@ -1,21 +1,22 @@
 <?php
 
-namespace Broarm\Silverstripe\PageSlices;
+namespace Broarm\PageSlices;
 
-use ArrayList;
-use Config;
-use DataExtension;
-use FieldList;
-use GridField;
-use LabelField;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\LabelField;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataExtension;
+
 
 /**
  * Class PageSlicesExtension
  *
- * @property \SiteTree|PageSlicesExtension $owner
- * @method \HasManyList PageSlices
+ * @property \SilverStripe\CMS\Model\SiteTree|PageSlicesExtension $owner
+ * @method \SilverStripe\ORM\HasManyList PageSlices
  *
- * @package Broarm\Silverstripe\PageSlices
+ * @package Broarm\PageSlices
  */
 class PageSlicesExtension extends DataExtension
 {
@@ -32,7 +33,9 @@ class PageSlicesExtension extends DataExtension
         if ($this->isValidClass() && $this->owner->exists()) {
             $class = $this->owner->getClassName();
             $availableSlices = Config::inst()->get($class, 'available_slices');
+
             $pageSlicesGridFieldConfig = PageSlicesGridFieldConfig::create($availableSlices);
+
             $pageSlicesGridField = GridField::create(
                 'PageSlices',
                 _t('PageSlice.PLURALNAME', 'Page slices'),
@@ -77,7 +80,7 @@ class PageSlicesExtension extends DataExtension
         if ($defaultSlices = Config::inst()->get($this->owner->class, 'default_slices')) {
             $slices = array_unique($defaultSlices);
         }
-        
+
         if ($this->owner->isValidClass() && $this->owner->hasNoSlices() && !empty($slices)) {
             foreach ($slices as $sliceClass) {
                 /** @var PageSlice $slice */

@@ -11,11 +11,10 @@
     }
   ],
   "require": {
-    "silverstripe/framework": ">=3.1",
-    "silverstripe/cms": ">=3.1",
+    "silverstripe/framework": "~4.0",
+    "silverstripe/cms": "~4.0",
     "heyday/silverstripe-versioneddataobjects": "*",
-    "silverstripe-australia/gridfieldextensions": "*",
-    "composer/installers": "*"
+    "symbiote/silverstripe-gridfieldextensions": "*"
   },
   "extra": {
     "installer-name": "pageslices"

@@ -1,22 +1,22 @@
 <?php
 
-namespace Broarm\Silverstripe\PageSlices;
+namespace Broarm\PageSlices;
 
-use ClassInfo;
-use GridFieldAddNewMultiClass;
-use GridFieldConfig;
-use GridFieldDataColumns;
-use GridFieldEditButton;
-use GridFieldPaginator;
-use GridFieldTitleHeader;
-use GridFieldToolbarHeader;
-use VersionedDataObjectDetailsForm;
-use VersionedGridFieldOrderableRows;
+use Heyday\VersionedDataObjects\VersionedDataObjectDetailsForm;
+use Heyday\VersionedDataObjects\VersionedGridFieldOrderableRows;
+use SilverStripe\Forms\GridField\GridFieldConfig;
+use SilverStripe\Forms\GridField\GridFieldDataColumns;
+use SilverStripe\Forms\GridField\GridFieldEditButton;
+use SilverStripe\Forms\GridField\GridFieldPaginator;
+use SilverStripe\Forms\GridField\GridFieldToolbarHeader;
+use Symbiote\GridFieldExtensions\GridFieldAddNewMultiClass;
+use Symbiote\GridFieldExtensions\GridFieldTitleHeader;
+
 
 /**
  * Class PageSlicesGridFieldConfig
  *
- * @package Broarm\Silverstripe\PageSlices
+ * @package Broarm\PageSlices
  */
 class PageSlicesGridFieldConfig extends GridFieldConfig
 {

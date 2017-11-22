@@ -6,23 +6,23 @@
  * Date: 19/07/16
  */
 
-namespace Broarm\Silverstripe\PageSlices;
+namespace Broarm\PageSlices;
 
-use ClassInfo;
-use DataObject;
 use Exception;
-use FieldList;
-use Injector;
-use LiteralField;
-use Tab;
-use TabSet;
-use TextField;
-use URLSegmentFilter;
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\Tab;
+use SilverStripe\Forms\TabSet;
+use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\View\Parsers\URLSegmentFilter;
 
 /**
  * Class PageSlice
  *
- * @package Broarm\Silverstripe\PageSlices
+ * @package Broarm\PageSlices
  *
  * @property string Title
  * @property string SliceID
@@ -31,27 +31,27 @@ use URLSegmentFilter;
  */
 class PageSlice extends DataObject
 {
-    private static $db = array(
+    private static $db = [
         'Title' => 'Varchar(255)',
         'SliceID' => 'Varchar(255)',
         'Sort' => 'Int'
-    );
+    ];
 
     private static $default_sort = 'Sort ASC';
 
-    private static $has_one = array(
+    private static $has_one = [
         'Parent' => 'Page'
-    );
+    ];
 
-    private static $summary_fields = array(
+    private static $summary_fields = [
         'getSliceImage' => 'Type',
         'getSliceType' => 'Type Name',
         'Title' => 'Title'
-    );
+    ];
 
-    private static $translate = array(
+    private static $translate = [
         'Title'
-    );
+    ];
 
     private static $slice_image = 'pageslices/images/PageSlice.png';
 
@@ -74,13 +74,11 @@ class PageSlice extends DataObject
         return $fields;
     }
 
-
     public function onBeforeWrite()
     {
         $this->createSliceID();
         parent::onBeforeWrite();
     }
-
 
     /**
      * If this slice holds has_many content
@@ -104,7 +102,6 @@ class PageSlice extends DataObject
         }
     }
 
-
     /**
      * Return the translated ClassName
      *
@@ -116,7 +113,6 @@ class PageSlice extends DataObject
         return end($singularName);
     }
 
-
     /**
      * Return a nice css name
      *
@@ -126,7 +122,6 @@ class PageSlice extends DataObject
     {
         return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $this->getClassName()));
     }
-
 
     /**
      * Create a readable ID based on the slice title
@@ -143,7 +138,6 @@ class PageSlice extends DataObject
         }
     }
 
-
     /**
      * Return the path to the section image
      *
@@ -158,7 +152,6 @@ class PageSlice extends DataObject
         );
     }
 
-
     /**
      * @throws Exception
      *
@@ -170,6 +163,7 @@ class PageSlice extends DataObject
             return $this->controller;
         }
 
+        $controllerClass = null;
         foreach (array_reverse(ClassInfo::ancestry($this->class)) as $sliceClass) {
             $controllerClass = "{$sliceClass}_Controller";
             if (class_exists($controllerClass)) {
@@ -180,10 +174,9 @@ class PageSlice extends DataObject
             if (class_exists($controllerClass)) {
                 break;
             }
-
         }
 
-        if (!isset($controllerClass) || !class_exists($controllerClass)) {
+        if (!class_exists($controllerClass)) {
             throw new Exception("Could not find controller class for {$this->getClassName()}");
         }
 
@@ -191,7 +184,6 @@ class PageSlice extends DataObject
 
         return $this->controller;
     }
-
 
     /**
      * Remove the add new button from the utility list
@@ -206,7 +198,6 @@ class PageSlice extends DataObject
         $fields->removeByName('action_doNew');
         return $fields;
     }
-
 
     public function canView($member = null)
     {
@@ -223,7 +214,7 @@ class PageSlice extends DataObject
         return $this->Parent()->canDelete($member);
     }
 
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         return $this->Parent()->canCreate($member);
     }

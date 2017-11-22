@@ -1,24 +1,26 @@
 <?php
 
-use Broarm\Silverstripe\PageSlices\PageSlice;
-use Broarm\Silverstripe\PageSlices\PageSliceController;
+use Broarm\PageSlices\PageSlice;
+use Broarm\PageSlices\PageSliceController;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Forms\LiteralField;
 
 /**
  * Class PageContentSlice
  *
- * @package Broarm\Silverstripe\PageSlices
+ * @package Broarm\PageSlices
  *
- * @method \Page Parent
+ * @method Page Parent
  */
 class PageContentSlice extends PageSlice
 {
-    private static $has_one = array();
+    private static $has_one = [];
 
     private static $slice_image = 'pageslices/images/PageContentSlice.png';
 
-    private static $defaults = array(
+    private static $defaults = [
         'Title' => 'Page content'
-    );
+    ];
 
     public function getCMSFields()
     {
@@ -29,13 +31,13 @@ class PageContentSlice extends PageSlice
             'PageContentSlice.ABOUT',
             'This section holds the content of the parent page. To edit, simply edit the parent\'s content field'
         );
-        $fields->addFieldsToTab('Root.Main', array(
+        $fields->addFieldsToTab('Root.Main', [
             LiteralField::create(
                 'Notification',
                 "<p class='message notice'>{$notice}</p>"
             ),
             HtmlEditorField::create('Content', 'Content', $this->Parent()->Content)
-        ));
+        ]);
 
         return $fields;
     }
@@ -50,15 +52,14 @@ class PageContentSlice extends PageSlice
     }
 }
 
-
 /**
  * Class PageContentSlice_Controller
  *
- * @package Broarm\Silverstripe\PageSlices
+ * @package Broarm\PageSlices
  */
 class PageContentSlice_Controller extends PageSliceController
 {
-    private static $allowed_actions = array();
+    private static $allowed_actions = [];
 
     public function init()
     {
@@ -69,18 +70,18 @@ class PageContentSlice_Controller extends PageSliceController
      * Look for content slices that match any of the parents class ancestry
      * The slice name is composed of the class name + 'ContentSlice'
      *
-     * @return \HTMLText
+     * @return \SilverStripe\ORM\FieldType\DBHTMLText
      */
     public function getTemplate()
     {
         // Weird fix that appeared in SS 3.5.2
-        if (in_array($this->Parent()->class, array('CMSPageEditController', 'CMSPageSettingsController', 'CMSPageHistoryController'))) {
+        if (in_array($this->Parent()->class, ['CMSPageEditController', 'CMSPageSettingsController'])) {
             return null;
         }
 
         $sliceAncestry = explode(',', implode('ContentSlice,', array_reverse($this->Parent()->getClassAncestry())));
         array_pop($sliceAncestry);
 
-        return $this->Parent()->renderWith($sliceAncestry, array('Slice' => $this));
+        return $this->Parent()->renderWith($sliceAncestry, ['Slice' => $this]);
     }
 }

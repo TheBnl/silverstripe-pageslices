@@ -1,10 +1,10 @@
 <?php
 
-namespace Broarm\Silverstripe\PageSlices;
+namespace Broarm\PageSlices;
 
-use GridField;
-use GridFieldDeleteAction;
-use ValidationException;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
+use SilverStripe\ORM\ValidationException;
 
 /**
  * Class PageSlicesVersionedGridFieldDeleteAction
@@ -12,11 +12,10 @@ use ValidationException;
  * Extend the delete action with a versioned delete
  * This class is temporarily included in the boilerplate until
  *
- * @package Broarm\Silverstripe\PageSlices
+ * @package Broarm\PageSlices
  */
 class PageSlicesVersionedGridFieldDeleteAction extends GridFieldDeleteAction
 {
-
     /**
      * Delete the object form both live and stage
      *
@@ -30,7 +29,7 @@ class PageSlicesVersionedGridFieldDeleteAction extends GridFieldDeleteAction
     public function handleAction(GridField $gridField, $actionName, $arguments, $data)
     {
         if ($item = $gridField->getList()->byID($arguments['RecordID'])) {
-            /** @var \DataObject $item */
+            /** @var \SilverStripe\ORM\DataObject $item */
             if (!$item->canDelete()) {
                 throw new ValidationException(_t(
                     'GridFieldAction_Delete.DeletePermissionsFailure',

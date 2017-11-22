@@ -1,24 +1,23 @@
 <?php
 
-namespace Broarm\Silverstripe\PageSlices;
+namespace Broarm\PageSlices;
 
-use Extension;
+use SilverStripe\Core\Extension;
+
 
 /**
  * Class PageSliceControllerExtension
  *
- * @package Broarm\Silverstripe\PageSlices
+ * @package Broarm\PageSlices
  */
 class PageSliceControllerExtension extends Extension
 {
-
     /**
      * @var array
      */
     private static $allowed_actions = array(
         'handleSlice'
     );
-
 
     /**
      * Handle the slice
