@@ -48,8 +48,7 @@ class PageSlice extends DataObject
     private static $summary_fields = [
         'getSliceImage' => 'Type',
         'getSliceType' => 'Type Name',
-        'Title' => 'Title',
-        'StageLabel' => 'Stage'
+        'Title' => 'Title'
     ];
 
     private static $translate = [
