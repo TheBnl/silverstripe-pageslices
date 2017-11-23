@@ -17,17 +17,19 @@ use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
+use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\Parsers\URLSegmentFilter;
 
 /**
  * Class PageSlice
+ * @mixin Versioned
  *
  * @package Broarm\PageSlices
  *
  * @property string Title
  * @property string SliceID
  *
- * @method |\Page Parent
+ * @method \Page Parent
  */
 class PageSlice extends DataObject
 {
@@ -46,7 +48,8 @@ class PageSlice extends DataObject
     private static $summary_fields = [
         'getSliceImage' => 'Type',
         'getSliceType' => 'Type Name',
-        'Title' => 'Title'
+        'Title' => 'Title',
+        'StageLabel' => 'Stage'
     ];
 
     private static $translate = [

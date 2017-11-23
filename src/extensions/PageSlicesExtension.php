@@ -8,24 +8,24 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\LabelField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataExtension;
+use SilverStripe\ORM\HasManyList;
+use SilverStripe\Versioned\Versioned;
 
 
 /**
  * Class PageSlicesExtension
  *
  * @property \SilverStripe\CMS\Model\SiteTree|PageSlicesExtension $owner
- * @method \SilverStripe\ORM\HasManyList PageSlices
+ * @method HasManyList PageSlices
  *
  * @package Broarm\PageSlices
  */
 class PageSlicesExtension extends DataExtension
 {
-
     private static $default_slices = array();
 
-
     private static $has_many = array(
-        'PageSlices' => 'Broarm\\Silverstripe\\PageSlices\\PageSlice.Parent'
+        'PageSlices' => 'Broarm\\PageSlices\\PageSlice.Parent'
     );
 
     public function updateCMSFields(FieldList $fields)
@@ -44,12 +44,11 @@ class PageSlicesExtension extends DataExtension
                 $this
             );
 
-            $pageSlicesLabelField = LabelField::create(
-                'MembersLabel',
-                _t('PageSlice.ABOUT', 'Add page sections to the page and rearrange them to alter the layout.')
-            );
+            $pageSlicesGridField->setDescription(_t(
+                'PageSlice.ABOUT', 'Add page sections to the page and rearrange them to alter the layout.'
+            ));
 
-            $fields->addFieldsToTab('Root.PageSlices', array($pageSlicesLabelField, $pageSlicesGridField));
+            $fields->addFieldsToTab('Root.PageSlices', array($pageSlicesGridField));
         }
     }
 
@@ -74,35 +73,33 @@ class PageSlicesExtension extends DataExtension
         return $controllers;
     }
 
-    
     public function onAfterWrite()
     {
-        if ($defaultSlices = Config::inst()->get($this->owner->class, 'default_slices')) {
-            $slices = array_unique($defaultSlices);
-        }
-
-        if ($this->owner->isValidClass() && $this->owner->hasNoSlices() && !empty($slices)) {
-            foreach ($slices as $sliceClass) {
+        if (
+            $this->owner->isValidClass()
+            && $this->owner->hasNoSlices()
+            && $slices = $this->owner->config()->get('default_slices')
+        ) {
+            foreach (array_unique($slices) as $sliceClass) {
                 /** @var PageSlice $slice */
                 $slice = $sliceClass::create();
                 $slice->write();
                 $this->owner->PageSlices()->add($slice);
-                $slice->publish('Stage', 'Live');
+                $slice->publishSingle();
             }
         }
 
         parent::onAfterWrite();
     }
 
-
     /**
      * Make sure the default slices do not get added double on a duplicate action
      */
     public function onBeforeDuplicate()
     {
-        Config::inst()->update($this->owner->class, 'default_slices', null);
+        // still needed?
+        //Config::inst()->update($this->owner->class, 'default_slices', null);
     }
-
 
     /**
      * Loop over and copy the attached page slices
@@ -115,7 +112,7 @@ class PageSlicesExtension extends DataExtension
             /** @var PageSlice $slice */
             $sliceCopy = $slice->duplicate(true);
             $page->PageSlices()->add($sliceCopy);
-            $sliceCopy->publish('Stage', 'Live');
+            $sliceCopy->publishSingle();
         }
     }
 
@@ -129,12 +126,11 @@ class PageSlicesExtension extends DataExtension
     {
         foreach ($this->owner->PageSlices() as $slice) {
             /** @var PageSlice $slice */
-            $slice->deleteFromStage('Live');
+            $slice->deleteFromStage(Versioned::LIVE);
             $slice->delete();
         }
         parent::onAfterDelete();
     }
-
 
     /**
      * Check if the class is not in the exception list
@@ -144,9 +140,8 @@ class PageSlicesExtension extends DataExtension
     public function isValidClass()
     {
         $invalidClassList = array_unique(PageSlice::config()->get('default_slices_exceptions'));
-        return !in_array($this->owner->class, $invalidClassList);
+        return !in_array($this->owner->getClassName(), $invalidClassList);
     }
-
 
     /**
      * Check if the current obj has no page slices already created

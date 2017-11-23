@@ -2,13 +2,16 @@
 
 namespace Broarm\PageSlices;
 
-use Heyday\VersionedDataObjects\VersionedDataObjectDetailsForm;
-use Heyday\VersionedDataObjects\VersionedGridFieldOrderableRows;
+use SilverStripe\Core\ClassInfo;
 use SilverStripe\Forms\GridField\GridFieldConfig;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
+use SilverStripe\Forms\GridField\GridFieldDeleteAction;
+use SilverStripe\Forms\GridField\GridFieldDetailForm;
 use SilverStripe\Forms\GridField\GridFieldEditButton;
 use SilverStripe\Forms\GridField\GridFieldPaginator;
 use SilverStripe\Forms\GridField\GridFieldToolbarHeader;
+use SilverStripe\Forms\GridField\GridFieldVersionedState;
+use SilverStripe\Versioned\VersionedGridFieldDetailForm;
 use Symbiote\GridFieldExtensions\GridFieldAddNewMultiClass;
 use Symbiote\GridFieldExtensions\GridFieldTitleHeader;
 
@@ -33,17 +36,20 @@ class PageSlicesGridFieldConfig extends GridFieldConfig
         parent::__construct();
         
         if (empty($availableClasses)) {
-            $availableClasses = ClassInfo::subclassesFor('Broarm\\Silverstripe\\PageSlices\\PageSlice');
+            $availableClasses = ClassInfo::subclassesFor('Broarm\\PageSlices\\PageSlice');
             array_shift($availableClasses);
         }
 
         $this->addComponent(new GridFieldToolbarHeader());
         $this->addComponent(new GridFieldTitleHeader());
         $this->addComponent(new GridFieldDataColumns());
-        $this->addComponent(new VersionedDataObjectDetailsForm());
+        $this->addComponent(new GridFieldVersionedState());
+        $this->addComponent(new GridFieldDetailForm());
         $this->addComponent(new GridFieldEditButton());
-        $this->addComponent(new PageSlicesVersionedGridFieldDeleteAction());
-        $this->addComponent(new VersionedGridFieldOrderableRows($sortField));
+        //$this->addComponent(new PageSlicesVersionedGridFieldDeleteAction());
+        $this->addComponent(new GridFieldDeleteAction());
+        //$this->addComponent(new VersionedGridFieldOrderableRows($sortField));
+        //$this->addComponent(new VersionedGridFieldOrderableRows($sortField));
         $this->addComponent($multiClassComponent = new GridFieldAddNewMultiClass());
         $this->addComponent($pagination = new GridFieldPaginator($itemsPerPage));
 

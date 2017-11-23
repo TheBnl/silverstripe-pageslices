@@ -1,6 +1,5 @@
 ---
-Name: PageSlices
-After: 'framework/*','cms/*'
+Name: pageslices
 ---
 Page:
   default_slices:
@@ -11,4 +10,5 @@ Broarm\PageSlices\PageSlice:
     - RedirectorPage
     - VirtualPage
   extensions:
-    - VersionedDataObject
+    - SilverStripe\Versioned\Versioned
+  versioned_gridfield_extensions: true

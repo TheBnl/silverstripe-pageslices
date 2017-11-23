@@ -1,7 +1,7 @@
 {
   "name": "bramdeleeuw/silverstripe-pageslices",
   "description": "Page slice implementation for Silverstripe",
-  "type": "silverstripe-module",
+  "type": "silverstripe-vendormodule",
   "keywords": ["silverstripe", "slice", "page", "layout"],
   "license": "BSD-3-Clause",
   "authors": [
@@ -13,10 +13,11 @@
   "require": {
     "silverstripe/framework": "~4.0",
     "silverstripe/cms": "~4.0",
-    "heyday/silverstripe-versioneddataobjects": "*",
     "symbiote/silverstripe-gridfieldextensions": "*"
   },
-  "extra": {
-    "installer-name": "pageslices"
+  "autoload": {
+    "psr-4": {
+      "Broarm\\PageSlices\\": "src"
+    }
   }
 }
