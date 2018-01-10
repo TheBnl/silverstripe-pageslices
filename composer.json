@@ -15,6 +15,11 @@
     "silverstripe/cms": "~4.0",
     "symbiote/silverstripe-gridfieldextensions": "*"
   },
+  "extra": {
+    "expose": [
+      "images"
+    ]
+  },
   "autoload": {
     "psr-4": {
       "Broarm\\PageSlices\\": "src"
