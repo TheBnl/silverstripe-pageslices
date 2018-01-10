@@ -16,7 +16,7 @@ class PageContentSlice extends PageSlice
 {
     private static $has_one = [];
 
-    private static $slice_image = 'pageslices/images/PageContentSlice.png';
+    private static $slice_image = 'resources/bramdeleeuw/silverstripe-pageslices/images/PageContentSlice.png';
 
     private static $defaults = [
         'Title' => 'Page content'
