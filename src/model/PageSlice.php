@@ -57,7 +57,7 @@ class PageSlice extends DataObject
         'Title'
     ];
 
-    private static $slice_image = 'pageslices/images/PageSlice.png';
+    private static $slice_image = 'resources/bramdeleeuw/silverstripe-pageslices/images/PageSlice.png';
 
     /**
      * @var PageSliceController
