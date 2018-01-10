@@ -33,6 +33,8 @@ use SilverStripe\View\Parsers\URLSegmentFilter;
  */
 class PageSlice extends DataObject
 {
+    private static $table_name = 'PageSlice';
+    
     private static $db = [
         'Title' => 'Varchar(255)',
         'SliceID' => 'Varchar(255)',
