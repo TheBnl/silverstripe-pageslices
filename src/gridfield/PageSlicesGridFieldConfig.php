@@ -36,7 +36,7 @@ class PageSlicesGridFieldConfig extends GridFieldConfig
         parent::__construct();
         
         if (empty($availableClasses)) {
-            $availableClasses = ClassInfo::subclassesFor('Broarm\\PageSlices\\PageSlice');
+            $availableClasses = ClassInfo::subclassesFor(PageSlice::class);
             array_shift($availableClasses);
         }
 
@@ -46,10 +46,7 @@ class PageSlicesGridFieldConfig extends GridFieldConfig
         $this->addComponent(new GridFieldVersionedState());
         $this->addComponent(new GridFieldDetailForm());
         $this->addComponent(new GridFieldEditButton());
-        //$this->addComponent(new PageSlicesVersionedGridFieldDeleteAction());
         $this->addComponent(new GridFieldDeleteAction());
-        //$this->addComponent(new VersionedGridFieldOrderableRows($sortField));
-        //$this->addComponent(new VersionedGridFieldOrderableRows($sortField));
         $this->addComponent($multiClassComponent = new GridFieldAddNewMultiClass());
         $this->addComponent($pagination = new GridFieldPaginator($itemsPerPage));
 

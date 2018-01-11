@@ -1,7 +1,7 @@
 <?php
 
-use Broarm\PageSlices\PageSlice;
-use Broarm\PageSlices\PageSliceController;
+namespace Broarm\PageSlices;
+
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\LiteralField;
 
@@ -14,7 +14,7 @@ use SilverStripe\Forms\LiteralField;
  */
 class PageContentSlice extends PageSlice
 {
-    private static $has_one = [];
+    private static $table_name = 'PageContentSlice';
 
     private static $slice_image = 'resources/bramdeleeuw/silverstripe-pageslices/images/PageContentSlice.png';
 
@@ -66,21 +66,14 @@ class PageContentSlice_Controller extends PageSliceController
         parent::init();
     }
 
-    /**
-     * Look for content slices that match any of the parents class ancestry
-     * The slice name is composed of the class name + 'ContentSlice'
-     *
-     * @return \SilverStripe\ORM\FieldType\DBHTMLText
-     */
     public function getTemplate()
     {
-        // Weird fix that appeared in SS 3.5.2
-        if (in_array($this->Parent()->class, ['CMSPageEditController', 'CMSPageSettingsController'])) {
-            return null;
-        }
-
-        $sliceAncestry = explode(',', implode('ContentSlice,', array_reverse($this->Parent()->getClassAncestry())));
-        array_pop($sliceAncestry);
+        // Place the full ancestry in the current namespace so templates are to be placed in a coherent place
+        $nameSpace = __NAMESPACE__;
+        $sliceAncestry = array_map(function ($item) use ($nameSpace) {
+            $name = ClassInfo::shortName($item);
+            return "{$nameSpace}\\{$name}ContentSlice";
+        }, array_reverse($this->Parent()->getClassAncestry()));
 
         return $this->Parent()->renderWith($sliceAncestry, ['Slice' => $this]);
     }

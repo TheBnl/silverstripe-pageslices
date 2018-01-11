@@ -1,0 +1,1 @@
+<%-- A slice class that was deleted --%>
