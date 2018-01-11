@@ -168,7 +168,7 @@ class PageSlice extends DataObject
         }
 
         $controllerClass = null;
-        foreach (array_reverse(ClassInfo::ancestry($this->class)) as $sliceClass) {
+        foreach (array_reverse(ClassInfo::ancestry($this->getClassName())) as $sliceClass) {
             $controllerClass = "{$sliceClass}_Controller";
             if (class_exists($controllerClass)) {
                 break;
