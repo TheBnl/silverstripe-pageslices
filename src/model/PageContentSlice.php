@@ -4,6 +4,7 @@ namespace Broarm\PageSlices;
 
 use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
 use SilverStripe\Forms\LiteralField;
+use \SilverStripe\Core\ClassInfo;
 
 /**
  * Class PageContentSlice
