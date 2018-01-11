@@ -11,3 +11,4 @@ Broarm\PageSlices\PageSlice:
     - VirtualPage
   extensions:
     - SilverStripe\Versioned\Versioned
+  versioned_gridfield_extensions: true
