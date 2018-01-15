@@ -13,7 +13,8 @@
   "require": {
     "silverstripe/framework": "~4.0",
     "silverstripe/cms": "~4.0",
-    "symbiote/silverstripe-gridfieldextensions": "*"
+    "symbiote/silverstripe-gridfieldextensions": "*",
+    "heyday/silverstripe-gridfieldversionedorderablerows": "*"
   },
   "extra": {
     "expose": [

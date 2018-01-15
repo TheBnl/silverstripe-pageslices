@@ -2,6 +2,7 @@
 
 namespace Broarm\PageSlices;
 
+use Heyday\GridFieldVersionedOrderableRows\GridFieldVersionedOrderableRows;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Forms\GridField\GridFieldConfig;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
@@ -44,6 +45,7 @@ class PageSlicesGridFieldConfig extends GridFieldConfig
         $this->addComponent(new GridFieldTitleHeader());
         $this->addComponent(new GridFieldDataColumns());
         $this->addComponent(new GridFieldVersionedState());
+        $this->addComponent(new GridFieldVersionedOrderableRows($sortField));
         $this->addComponent(new GridFieldDetailForm());
         $this->addComponent(new GridFieldEditButton());
         $this->addComponent(new GridFieldDeleteAction());
