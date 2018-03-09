@@ -73,8 +73,8 @@ class PageContentSlice_Controller extends PageSliceController
      */
     public function getTemplate()
     {
-        // Weird fix that appeared in SS 3.5.2
-        if (in_array($this->Parent()->class, array('CMSPageEditController', 'CMSPageSettingsController', 'CMSPageHistoryController'))) {
+        // catch situations where Parent is different in CMS
+        if (!$this->Parent() instanceof Page_Controller) {
             return null;
         }
 
