@@ -3,7 +3,7 @@ Name: pageslices
 ---
 Page:
   default_slices:
-    - PageContentSlice
+    - Broarm\PageSlices\PageContentSlice
 Broarm\PageSlices\PageSlice:
   default_slices_exceptions:
     - SiteTree
