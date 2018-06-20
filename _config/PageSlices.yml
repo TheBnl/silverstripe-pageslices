@@ -11,4 +11,4 @@ Broarm\Silverstripe\PageSlices\PageSlice:
     - RedirectorPage
     - VirtualPage
   extensions:
-    - VersionedDataObject
+    - Heyday\VersionedDataObjects\VersionedDataObject
