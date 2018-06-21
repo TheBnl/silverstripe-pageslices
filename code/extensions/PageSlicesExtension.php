@@ -49,7 +49,7 @@ class PageSlicesExtension extends DataExtension
             $fields->addFieldsToTab('Root.PageSlices', array($pageSlicesLabelField, $pageSlicesGridField));
         }
     }
-
+    
     /**
      * Get the slice controllers
      *
@@ -58,12 +58,27 @@ class PageSlicesExtension extends DataExtension
     public function getSlices()
     {
         $controllers = ArrayList::create();
-        if ($slices = $this->owner->PageSlices()) {
+
+        if(
+            $this->owner instanceof \VirtualPage
+            && ($original = $this->owner->CopyContentFrom())
+            && $original->hasExtension(self::class))
+        {
+            $slices = $original->PageSlices();
+        } else {
+            $slices = $this->owner->PageSlices();
+        }
+
+        if ($slices) {
             /** @var PageSlice $slice */
             foreach ($slices as $slice) {
-                $controller = $slice->getController();
-                $controller->init();
-                $controllers->push($controller);
+                try {
+                    $controller = $slice->getController();
+                    $controller->init();
+                    $controllers->push($controller);
+                } catch (\Exception $e) {
+                    user_error($e, E_ERROR);
+                }
             }
             return $controllers;
         }

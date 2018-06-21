@@ -10,8 +10,8 @@ use GridFieldEditButton;
 use GridFieldPaginator;
 use GridFieldTitleHeader;
 use GridFieldToolbarHeader;
-use VersionedDataObjectDetailsForm;
-use VersionedGridFieldOrderableRows;
+use Heyday\VersionedDataObjects\VersionedDataObjectDetailsForm;
+use Heyday\VersionedDataObjects\VersionedGridFieldOrderableRows;
 
 /**
  * Class PageSlicesGridFieldConfig

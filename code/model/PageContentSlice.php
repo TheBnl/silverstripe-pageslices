@@ -73,21 +73,19 @@ class PageContentSlice_Controller extends PageSliceController
      */
     public function getTemplate()
     {
+        $parent = $this->Parent();
+
         // catch situations where Parent is different in CMS
-        if (!$this->Parent() instanceof Page_Controller) {
+        if (!$parent instanceof Page_Controller) {
             return null;
         }
 
-        $sliceAncestry = explode(',', implode('ContentSlice,', array_reverse($this->Parent()->getClassAncestry())));
-        
-        // detect virtual page and replace slice
-        if( $sliceAncestry[0]=='VirtualPageContentSlice' ){
-            $copiedPage = $this->Parent()->CopyContentFrom();
-            $sliceAncestry[0] = $copiedPage->getClassName() . 'ContentSlice' ;
-            array_pop($sliceAncestry);
-            return $copiedPage->renderWith($sliceAncestry, array('Slice' => $this));
+        // detect virtual page and replace parent
+        if ($parent instanceof VirtualPage_Controller) {
+            $parent = $parent->CopyContentFrom();
         }
-        
+
+        $sliceAncestry = explode(',', implode('ContentSlice,', array_reverse($parent->getClassAncestry())));
         array_pop($sliceAncestry);
 
         return $this->Parent()->renderWith($sliceAncestry, array('Slice' => $this));
