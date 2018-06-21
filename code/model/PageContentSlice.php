@@ -79,6 +79,15 @@ class PageContentSlice_Controller extends PageSliceController
         }
 
         $sliceAncestry = explode(',', implode('ContentSlice,', array_reverse($this->Parent()->getClassAncestry())));
+        
+        // detect virtual page and replace slice
+        if( $sliceAncestry[0]=='VirtualPageContentSlice' ){
+            $copiedPage = $this->Parent()->CopyContentFrom();
+            $sliceAncestry[0] = $copiedPage->getClassName() . 'ContentSlice' ;
+            array_pop($sliceAncestry);
+            return $copiedPage->renderWith($sliceAncestry, array('Slice' => $this));
+        }
+        
         array_pop($sliceAncestry);
 
         return $this->Parent()->renderWith($sliceAncestry, array('Slice' => $this));
