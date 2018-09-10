@@ -14,7 +14,7 @@
     "silverstripe/framework": ">=3.1",
     "silverstripe/cms": ">=3.1",
     "heyday/silverstripe-versioneddataobjects": "*",
-    "silverstripe-australia/gridfieldextensions": "*",
+    "symbiote/gridfieldextensions": "*",
     "composer/installers": "*"
   },
   "extra": {
