@@ -1,1 +1,1 @@
-<%-- A slice class that was deleted --%>
+<%-- A slice without a class --%>

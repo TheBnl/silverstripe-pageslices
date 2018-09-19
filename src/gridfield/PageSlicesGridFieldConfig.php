@@ -48,7 +48,6 @@ class PageSlicesGridFieldConfig extends GridFieldConfig
         $this->addComponent(new GridFieldVersionedOrderableRows($sortField));
         $this->addComponent(new GridFieldDetailForm());
         $this->addComponent(new GridFieldEditButton());
-        $this->addComponent(new GridFieldDeleteAction());
         $this->addComponent($multiClassComponent = new GridFieldAddNewMultiClass());
         $this->addComponent($pagination = new GridFieldPaginator($itemsPerPage));
 

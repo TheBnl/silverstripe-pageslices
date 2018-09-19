@@ -40,8 +40,7 @@ class PageSlicesExtension extends DataExtension
                 'PageSlices',
                 _t('PageSlice.PLURALNAME', 'Page slices'),
                 $this->owner->PageSlices(),
-                $pageSlicesGridFieldConfig,
-                $this
+                $pageSlicesGridFieldConfig
             );
 
             $pageSlicesGridField->setDescription(_t(
@@ -60,7 +59,18 @@ class PageSlicesExtension extends DataExtension
     public function getSlices()
     {
         $controllers = ArrayList::create();
-        if ($slices = $this->owner->PageSlices()) {
+
+        if(
+            $this->owner instanceof \VirtualPage
+            && ($original = $this->owner->CopyContentFrom())
+            && $original->hasExtension(self::class))
+        {
+            $slices = $original->PageSlices();
+        } else {
+            $slices = $this->owner->PageSlices();
+        }
+
+        if ($slices) {
             /** @var PageSlice $slice */
             foreach ($slices as $slice) {
                 $controller = $slice->getController();
@@ -75,30 +85,20 @@ class PageSlicesExtension extends DataExtension
 
     public function onAfterWrite()
     {
-        if (
-            $this->owner->isValidClass()
-            && $this->owner->hasNoSlices()
-            && $slices = $this->owner->config()->get('default_slices')
-        ) {
-            foreach (array_unique($slices) as $sliceClass) {
+        parent::onAfterWrite();
+        if ($defaultSlices = Config::inst()->get($this->owner->class, 'default_slices')) {
+            $slices = array_unique($defaultSlices);
+        }
+
+        if ($this->owner->isValidClass() && $this->owner->hasNoSlices() && !empty($slices)) {
+            foreach ($slices as $sliceClass) {
                 /** @var PageSlice $slice */
                 $slice = $sliceClass::create();
                 $slice->write();
                 $this->owner->PageSlices()->add($slice);
-                $slice->publishSingle();
+                $slice->publishRecursive();
             }
         }
-
-        parent::onAfterWrite();
-    }
-
-    /**
-     * Make sure the default slices do not get added double on a duplicate action
-     */
-    public function onBeforeDuplicate()
-    {
-        // still needed?
-        //Config::inst()->update($this->owner->class, 'default_slices', null);
     }
 
     /**
@@ -112,24 +112,8 @@ class PageSlicesExtension extends DataExtension
             /** @var PageSlice $slice */
             $sliceCopy = $slice->duplicate(true);
             $page->PageSlices()->add($sliceCopy);
-            $sliceCopy->publishSingle();
+            $sliceCopy->publishRecursive();
         }
-    }
-
-
-    /**
-     * Clean up any child records after the page is deleted.
-     * If a page is archived and a ID is reused (?) old slices
-     * matching the parent ID can be added to the new page
-     */
-    public function onAfterDelete()
-    {
-        foreach ($this->owner->PageSlices() as $slice) {
-            /** @var PageSlice $slice */
-            $slice->deleteFromStage(Versioned::LIVE);
-            $slice->delete();
-        }
-        parent::onAfterDelete();
     }
 
     /**

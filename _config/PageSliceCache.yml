@@ -1,0 +1,8 @@
+---
+Name: PageSliceCache
+---
+SilverStripe\Core\Injector\Injector:
+  Psr\SimpleCache\CacheInterface.PageSlices:
+    factory: SilverStripe\Core\Cache\CacheFactory
+    constructor:
+      namespace: 'PageSlices'

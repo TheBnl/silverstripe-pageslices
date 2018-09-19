@@ -60,15 +60,15 @@ class PageContentSlice extends PageSlice
  */
 class PageContentSlice_Controller extends PageSliceController
 {
-    private static $allowed_actions = [];
-
-    public function init()
-    {
-        parent::init();
-    }
-
     public function getTemplate()
     {
+        $parent = $this->Parent();
+
+        // detect virtual page and replace parent
+        if ($parent instanceof VirtualPage_Controller) {
+            $parent = $parent->CopyContentFrom();
+        }
+
         // Place the full ancestry in the current namespace so templates are to be placed in a coherent place
         $nameSpace = __NAMESPACE__;
         $sliceAncestry = array_map(function ($item) use ($nameSpace) {
