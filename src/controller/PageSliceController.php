@@ -35,7 +35,7 @@ class PageSliceController extends Controller
      *
      * @var boolean
      */
-    private static $enable_cache = true;
+    private static $enable_cache = false;
 
     /**
      * @var array

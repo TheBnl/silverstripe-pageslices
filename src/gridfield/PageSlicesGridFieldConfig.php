@@ -41,7 +41,6 @@ class PageSlicesGridFieldConfig extends GridFieldConfig
             array_shift($availableClasses);
         }
 
-        $this->addComponent(new GridFieldToolbarHeader());
         $this->addComponent(new GridFieldTitleHeader());
         $this->addComponent(new GridFieldDataColumns());
         $this->addComponent(new GridFieldVersionedState());
