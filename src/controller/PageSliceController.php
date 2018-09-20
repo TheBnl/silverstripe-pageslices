@@ -8,6 +8,7 @@ use SilverStripe\Control\Director;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Flushable;
 
 
 /**
@@ -15,7 +16,7 @@ use SilverStripe\Core\ClassInfo;
  *
  * @package Broarm\PageSlices
  */
-class PageSliceController extends Controller
+class PageSliceController extends Controller implements Flushable
 {
     /**
      * @var PageSlice
@@ -128,6 +129,22 @@ class PageSliceController extends Controller
     }
 
     /**
+     * @return CacheInterface
+     */
+    public static function cache()
+    {
+        return Injector::inst()->get(CacheInterface::class . '.PageSlices');
+    }
+
+    /**
+     * Flush the caches
+     */
+    public static function flush()
+    {
+        self::cache()->clear();
+    }
+
+    /**
      * Return the rendered template
      *
      * @return \HTMLText
@@ -137,7 +154,7 @@ class PageSliceController extends Controller
         if (!$this->useCaching()) {
             $result = $this->renderTemplate();
         } else {
-            $cache = Injector::inst()->get(CacheInterface::class . '.PageSlices');
+            $cache = self::cache();
             if (!$cache->has($this->getCacheKey())) {
                 $result = $this->renderTemplate();
                 $cache->set($this->getCacheKey(), $result);
