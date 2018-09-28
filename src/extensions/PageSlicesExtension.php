@@ -86,7 +86,7 @@ class PageSlicesExtension extends DataExtension
     public function onAfterWrite()
     {
         parent::onAfterWrite();
-        if ($defaultSlices = Config::inst()->get($this->owner->class, 'default_slices')) {
+        if ($defaultSlices = $this->owner->config()->get('default_slices')) {
             $slices = array_unique($defaultSlices);
         }
 
