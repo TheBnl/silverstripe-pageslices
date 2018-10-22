@@ -1,16 +1,11 @@
 <?php
-/**
- * PageSlice.php
- *
- * @author Bram de Leeuw
- * Date: 19/07/16
- */
 
 namespace Broarm\PageSlices;
 
 use Exception;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Core\Manifest\ModuleResourceLoader;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\Tab;
