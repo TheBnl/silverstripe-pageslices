@@ -57,7 +57,7 @@ class PageSlice extends DataObject
         'Title'
     ];
 
-    private static $slice_image = 'resources/bramdeleeuw/silverstripe-pageslices/images/PageSlice.png';
+    private static $slice_image = 'bramdeleeuw/silverstripe-pageslices:images/PageSlice.png';
 
     /**
      * @var PageSliceController
@@ -149,7 +149,7 @@ class PageSlice extends DataObject
      */
     public function getSliceImage()
     {
-        $image = self::config()->get('slice_image');
+        $image = ModuleResourceLoader::resourceURL(self::config()->get('slice_image'));
         return LiteralField::create(
             'SliceImage',
             "<img src='$image' title='{$this->getSliceType()}' alt='{$this->getSliceType()}' width='125'>"
