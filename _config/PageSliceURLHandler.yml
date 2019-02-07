@@ -1,7 +1,7 @@
 ---
 name: 'PageSliceURLHandler'
 ---
-ContentController:
+SilverStripe\CMS\Controllers\ContentController:
   extensions:
     - Broarm\PageSlices\PageSliceControllerExtension
   url_handlers:
