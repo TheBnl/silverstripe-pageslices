@@ -119,7 +119,7 @@ class PageSlice extends DataObject
      */
     public function getCSSName()
     {
-        return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $this->getClassName()));
+        return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', ClassInfo::shortName($this)));
     }
 
     /**
