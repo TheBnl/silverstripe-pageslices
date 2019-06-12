@@ -75,6 +75,10 @@ class PageSlice extends DataObject
 
     public function onBeforeWrite()
     {
+        if( !$this->ID ){
+            $count = $this->Parent()->PageSlices()->Count();
+            $this->Sort = $count+2;
+        }
         $this->createSliceID();
         parent::onBeforeWrite();
     }
