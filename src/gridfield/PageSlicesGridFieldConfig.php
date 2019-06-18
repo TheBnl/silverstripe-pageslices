@@ -4,6 +4,7 @@ namespace Broarm\PageSlices;
 
 use Heyday\GridFieldVersionedOrderableRows\GridFieldVersionedOrderableRows;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\Dev\Deprecation;
 use SilverStripe\Forms\GridField\GridFieldConfig;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
@@ -35,11 +36,6 @@ class PageSlicesGridFieldConfig extends GridFieldConfig
     public function __construct($availableClasses = array(), $itemsPerPage = 999, $sortField = 'Sort')
     {
         parent::__construct();
-        
-        if (empty($availableClasses)) {
-            $availableClasses = ClassInfo::subclassesFor(PageSlice::class);
-            array_shift($availableClasses);
-        }
 
         $this->addComponent(new GridFieldTitleHeader());
         $this->addComponent(new GridFieldDataColumns());
@@ -50,24 +46,7 @@ class PageSlicesGridFieldConfig extends GridFieldConfig
         $this->addComponent($multiClassComponent = new GridFieldAddNewMultiClass());
         $this->addComponent($pagination = new GridFieldPaginator($itemsPerPage));
 
-        $multiClassComponent->setClasses(self::translateAvailableClasses($availableClasses));
+        $multiClassComponent->setClasses($availableClasses);
         $pagination->setThrowExceptionOnBadDataType(false);
-    }
-
-
-    /**
-     * Translate the given array for a proper SINGULARNAME.
-     *
-     * @param $classes
-     *
-     * @return array
-     */
-    private static function translateAvailableClasses($classes)
-    {
-        $out = array();
-        foreach ($classes as $class) {
-            $out[$class] = $class::singleton()->getSliceType();
-        }
-        return $out;
     }
 }

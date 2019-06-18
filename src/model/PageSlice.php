@@ -4,8 +4,10 @@ namespace Broarm\PageSlices;
 
 use Exception;
 use SilverStripe\Core\ClassInfo;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Injector\Injector;
 use SilverStripe\Core\Manifest\ModuleResourceLoader;
+use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\Tab;
@@ -65,12 +67,31 @@ class PageSlice extends DataObject
     public function getCMSFields()
     {
         $fields = FieldList::create(TabSet::create('Root', $mainTab = Tab::create('Main')));
+        $fields->addFieldsToTab('Root.Main', array(
+            TextField::create('Title', _t(__CLASS__ . 'Title', 'Title'))
+        ));
 
-        $titleField = TextField::create('Title', 'Title');
+        // Add a slice type select when the base class is presented
+        if ($this->ClassName === PageSlice::class) {
+            $availableClasses = $this->Parent()->getAvailableSlices();
+            $fields->addFieldsToTab('Root.Main', [
+                DropdownField::create('ClassName', _t(__CLASS__ . 'ClassName', 'Slice type'), $availableClasses)
+                    ->setEmptyString(_t(__CLASS__ . 'ClassNameEmpty', 'Select slice type'))
+            ]);
+        }
 
-        $fields->addFieldsToTab('Root.Main', array($titleField));
         $this->extend('updateCMSFields', $fields);
         return $fields;
+    }
+
+    public function validate()
+    {
+        $validation = parent::validate();
+        if ($validation->isValid() && $this->ClassName === PageSlice::class) {
+            $validation->addError('Select a proper slice type');
+        }
+
+        return $validation;
     }
 
     public function onBeforeWrite()
