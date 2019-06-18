@@ -50,6 +50,10 @@ class PageSlice extends DataObject
         'Title' => 'Title'
     ];
 
+    private static $searchable_fields = [
+        'Title'
+    ];
+
     private static $translate = [
         'Title'
     ];

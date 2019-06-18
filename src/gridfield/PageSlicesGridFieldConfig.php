@@ -5,7 +5,9 @@ namespace Broarm\PageSlices;
 use Heyday\GridFieldVersionedOrderableRows\GridFieldVersionedOrderableRows;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Dev\Deprecation;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
 use SilverStripe\Forms\GridField\GridFieldConfig;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\GridField\GridFieldDataColumns;
 use SilverStripe\Forms\GridField\GridFieldDeleteAction;
 use SilverStripe\Forms\GridField\GridFieldDetailForm;
@@ -23,7 +25,7 @@ use Symbiote\GridFieldExtensions\GridFieldTitleHeader;
  *
  * @package Broarm\PageSlices
  */
-class PageSlicesGridFieldConfig extends GridFieldConfig
+class PageSlicesGridFieldConfig extends GridFieldConfig_RecordEditor
 {
 
     /**
@@ -33,20 +35,12 @@ class PageSlicesGridFieldConfig extends GridFieldConfig
      * @param int    $itemsPerPage
      * @param string $sortField
      */
-    public function __construct($availableClasses = array(), $itemsPerPage = 999, $sortField = 'Sort')
+    public function __construct($availableClasses = array(), $itemsPerPage = null, $sortField = 'Sort')
     {
-        parent::__construct();
-
-        $this->addComponent(new GridFieldTitleHeader());
-        $this->addComponent(new GridFieldDataColumns());
-        $this->addComponent(new GridFieldVersionedState());
+        parent::__construct($itemsPerPage = null);
+        $this->removeComponentsByType(new GridFieldAddNewButton());
         $this->addComponent(new GridFieldVersionedOrderableRows($sortField));
-        $this->addComponent(new GridFieldDetailForm());
-        $this->addComponent(new GridFieldEditButton());
-        $this->addComponent($multiClassComponent = new GridFieldAddNewMultiClass());
-        $this->addComponent($pagination = new GridFieldPaginator($itemsPerPage));
-
+        $this->addComponent($multiClassComponent = new GridFieldAddNewMultiClass('buttons-before-left'));
         $multiClassComponent->setClasses($availableClasses);
-        $pagination->setThrowExceptionOnBadDataType(false);
     }
 }
