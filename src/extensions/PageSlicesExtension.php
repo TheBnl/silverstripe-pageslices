@@ -61,7 +61,7 @@ class PageSlicesExtension extends DataExtension
 
         return array_map(function ($class) {
             return $class::singleton()->getSliceType();
-        }, $availableClasses);
+        }, array_combine($availableClasses, $availableClasses));
     }
 
     /**
