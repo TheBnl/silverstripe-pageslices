@@ -47,7 +47,7 @@ class PageSlice extends DataObject
     private static $summary_fields = [
         'getSliceImage' => 'Type',
         'getSliceType' => 'Type Name',
-        'Title' => 'Title'
+        'Title'
     ];
 
     private static $searchable_fields = [
@@ -70,32 +70,19 @@ class PageSlice extends DataObject
      */
     public function getCMSFields()
     {
-        $fields = FieldList::create(TabSet::create('Root', $mainTab = Tab::create('Main')));
-        $fields->addFieldsToTab('Root.Main', array(
-            TextField::create('Title', _t(__CLASS__ . 'Title', 'Title'))
-        ));
+        $fields = parent::getCMSFields();
+        $fields->removeByName(['ParentID', 'SliceID', 'Sort']);
 
         // Add a slice type select when the base class is presented
         if ($this->ClassName === PageSlice::class) {
             $availableClasses = $this->Parent()->getAvailableSlices();
             $fields->addFieldsToTab('Root.Main', [
-                DropdownField::create('ClassName', _t(__CLASS__ . 'ClassName', 'Slice type'), $availableClasses)
+                DropdownField::create('ClassName', $this->fieldLabel('ClassName'), $availableClasses)
                     ->setEmptyString(_t(__CLASS__ . 'ClassNameEmpty', 'Select slice type'))
             ]);
         }
 
-        $this->extend('updateCMSFields', $fields);
         return $fields;
-    }
-
-    public function validate()
-    {
-        $validation = parent::validate();
-        if ($validation->isValid() && $this->ClassName === PageSlice::class) {
-            $validation->addError('Select a proper slice type');
-        }
-
-        return $validation;
     }
 
     public function onBeforeWrite()
@@ -137,8 +124,7 @@ class PageSlice extends DataObject
      */
     public function getSliceType()
     {
-        $singularName = explode('\\', $this->i18n_singular_name());
-        return end($singularName);
+        return $this->i18n_singular_name();
     }
 
     /**
@@ -214,17 +200,32 @@ class PageSlice extends DataObject
     }
 
     /**
-     * Remove the add new button from the utility list
-     * Because of the multi class, add new would create a new base class that should not be used
-     * (Could be replaced with an add new multi class button)
+     * Register field labels
      *
-     * @return mixed
+     * @param bool $includerelations
+     * @return array
      */
-    public function getBetterButtonsUtils()
+    public function fieldLabels($includerelations = true)
     {
-        $fields = parent::getBetterButtonsUtils();
-        $fields->removeByName('action_doNew');
-        return $fields;
+        $labels = parent::fieldLabels($includerelations);
+        $labels['Title'] = _t(__CLASS__ . 'Title', 'Title');
+        $labels['ClassName'] = _t(__CLASS__ . 'ClassName', 'Slice type');
+        return $labels;
+    }
+
+    /**
+     * Validate the slice type
+     *
+     * @return \SilverStripe\ORM\ValidationResult
+     */
+    public function validate()
+    {
+        $validation = parent::validate();
+        if ($validation->isValid() && $this->ClassName === PageSlice::class) {
+            $validation->addError('Select a proper slice type');
+        }
+
+        return $validation;
     }
 
     public function canView($member = null)
