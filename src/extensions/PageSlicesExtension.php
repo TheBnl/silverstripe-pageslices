@@ -2,6 +2,7 @@
 
 namespace Broarm\PageSlices;
 
+use SilverStripe\Core\ClassInfo;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\GridField\GridField;
@@ -31,9 +32,7 @@ class PageSlicesExtension extends DataExtension
     public function updateCMSFields(FieldList $fields)
     {
         if ($this->isValidClass() && $this->owner->exists()) {
-            $class = $this->owner->getClassName();
-            $availableSlices = Config::inst()->get($class, 'available_slices');
-
+            $availableSlices = $this->owner->getAvailableSlices();
             $pageSlicesGridFieldConfig = PageSlicesGridFieldConfig::create($availableSlices);
 
             $pageSlicesGridField = GridField::create(
@@ -49,6 +48,20 @@ class PageSlicesExtension extends DataExtension
 
             $fields->addFieldsToTab('Root.PageSlices', array($pageSlicesGridField));
         }
+    }
+
+    public function getAvailableSlices()
+    {
+        $class = $this->owner->getClassName();
+        $availableSlices = Config::inst()->get($class, 'available_slices');
+        if (empty($availableClasses)) {
+            $availableClasses = ClassInfo::subclassesFor(PageSlice::class);
+            array_shift($availableClasses);
+        }
+
+        return array_map(function ($class) {
+            return $class::singleton()->getSliceType();
+        }, array_combine($availableClasses, $availableClasses));
     }
 
     /**
