@@ -37,7 +37,7 @@ class PageSliceControllerExtension extends Extension
         }
 
         foreach ($hasManyRelations as $relationName => $relationClass) {
-            if ($relationClass == 'PageSlice' || is_subclass_of($relationClass, 'PageSlice')) {
+            if ($relationClass == 'Broarm\\Silverstripe\\PageSlices\\PageSlice' || is_subclass_of($relationClass, 'Broarm\\Silverstripe\\PageSlices\\PageSlice')) {
                 $sliceRelations[] = $relationName;
             }
         }
